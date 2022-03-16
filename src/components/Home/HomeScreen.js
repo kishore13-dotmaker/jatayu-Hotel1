@@ -8,7 +8,7 @@ import {
   Pressable,
   Dimensions,
 } from "react-native";
-import { FlatList, ScrollView } from "react-native-gesture-handler";
+import { FlatList, ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import Colors from "../../assets/colors/colors";
 import HomeStyles from "./HomeScreenStyles";
 import SearchBar from "../SearchBar/SerachBar";
@@ -16,6 +16,7 @@ import ListOptions from "../ListOptions/ListOptions";
 import Categories from "../Categories/Categories";
 import Card from "../ShopCards/card";
 import shops from "../consts/shops";
+
 
 const { width } = Dimensions.get("screen");
 
@@ -36,10 +37,12 @@ const Home = ({ navigation }) => {
             Chennai
           </Text>
         </View>
+        <Pressable onPress={() => navigation.navigate('ProfileScreen')}>
         <Image
           source={require("../../assets/images/app_icon/profile.jpg")}
           style={HomeStyles.profileImage}
         />
+        </Pressable>
       </View>
       
         <SearchBar />
