@@ -6,17 +6,21 @@ import DismissKeyboard from '../../utils/DismissKeyboard';
 import SignUpStyles from './SignUpStyles';
 // import { AuthContext } from '../../navigation/AuthProviders';
 import SocialButtons  from "../Buttons/SocialButtons";
-
+import Axis from 'axios';
 
 
 
 const SignUpScreen = ({navigation}) => {
+  const [usename, setUsername] = useState();
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [confirmPassword, setConfirmPassword] = useState();
   const [firstName , setFirstName] = useState();
   const [lastName , setLastName] = useState();
 
+  const postData= () => {
+
+  }
 
   // const {login} = useContext(AuthContext);
   const handleSubmit = () => { 
@@ -29,7 +33,7 @@ const SignUpScreen = ({navigation}) => {
 			body:JSON.stringify({
 				firstName: firstName,
 				lastName: lastName,
-				username: username,
+				email: email,
         password: password,
         confirmPassword: confirmPassword,
 			})
@@ -48,21 +52,21 @@ const SignUpScreen = ({navigation}) => {
     <DismissKeyboard>
     <View style={SignUpStyles.container}>
       <Text style={SignUpStyles.text}>Signup</Text>
-      <FormInput onSubmit={handleSubmit}
+      <FormInput
         labelValue={firstName}
         onChangeText={(firstName) => setFirstName(firstName)}
         placeholderText="First Name"
         iconType="pencil"
       />
       
-      <FormInput onSubmit={handleSubmit}
+      <FormInput
         labelValue={lastName}
         onChangeText={(lastName) => setLastName(lastName)}
         placeholderText="Last Name"
         iconType="pencil"
       />
 
-      <FormInput onSubmit={handleSubmit}
+      <FormInput 
         labelValue={email}
         onChangeText={(userEmail) => setEmail(userEmail)}
         placeholderText="Email"
@@ -72,7 +76,7 @@ const SignUpScreen = ({navigation}) => {
         autoCorrect={false}
       />
 
-      <FormInput onSubmit={handleSubmit}
+      <FormInput 
         labelValue={password}
         onChangeText={(userPassword) => setPassword(userPassword)}
         placeholderText="Password"
@@ -80,7 +84,7 @@ const SignUpScreen = ({navigation}) => {
         secureTextEntry={true}
       />
 
-      <FormInput onSubmit={handleSubmit}
+      <FormInput
         labelValue={confirmPassword}
         onChangeText={(userPassword) => setConfirmPassword(userPassword)}
         placeholderText="Confirm Password"
@@ -90,7 +94,7 @@ const SignUpScreen = ({navigation}) => {
 
       <FormButton
         buttonTitle="Sign Up"
-        onPress={() => handleSubmit }
+        onPress={() => handleSubmit() }
       />
     
 
