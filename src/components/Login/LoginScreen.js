@@ -14,6 +14,27 @@ const LoginScreen = ({navigation}) => {
   const [password, setPassword] = useState();
 
   // const {login} = useContext(AuthContext);
+  const handleSubmit = () => { 
+    fetch('http://192.168.1.6:3000/registerCustomer', {
+			method: 'POST',
+			header:{
+				'Accept': 'application/json',
+				'Content-type': 'application/json'
+			},
+			body:JSON.stringify({
+				userName: email,
+        password: password,
+			})
+			
+		})
+		.then((response) => response.json())
+			.then((responseJson) =>{
+				alert(responseJson);
+			})
+			.catch((error)=>{
+				console.error(error);
+			});
+}
 
   return (
     <DismissKeyboard>
@@ -45,7 +66,8 @@ const LoginScreen = ({navigation}) => {
 
       <FormButton
         buttonTitle="Sign In"
-        onPress={() => navigation.navigate('Home')}
+        onPress={() => handleSubmit() }
+
       />
 
       <TouchableOpacity style={LoginStyles.forgotButton} onPress={() => navigation.navigate('ForgotPassword')}>
