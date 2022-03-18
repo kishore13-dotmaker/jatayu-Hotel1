@@ -34,9 +34,7 @@ const ProfileStyles = StyleSheet.create({
       alignItems: 'center',
       justifyContent: 'center',
     },
-    menuWrapper: {
-      marginTop: 10,
-    },
+    
     menuItem: {
       flexDirection: 'row',
       paddingVertical: 15,

@@ -19,26 +19,50 @@ const SignUpScreen = ({navigation}) => {
 
 
   // const {login} = useContext(AuthContext);
-
+  const handleSubmit = () => { 
+    fetch('https://hardeepwork.000webhostapp.com/react/register.php', {
+			method: 'POST',
+			header:{
+				'Accept': 'application/json',
+				'Content-type': 'application/json'
+			},
+			body:JSON.stringify({
+				firstName: setFirstName,
+				lastName: setLastName,
+				email: setEmail,
+        password: setPassword,
+        confirmPassword: setConfirmPassword,
+			})
+			
+		})
+		.then((response) => response.json())
+			.then((responseJson) =>{
+				alert(responseJson);
+			})
+			.catch((error)=>{
+				console.error(error);
+			});
+}
+ 
   return (
     <DismissKeyboard>
     <View style={SignUpStyles.container}>
       <Text style={SignUpStyles.text}>Signup</Text>
-      <FormInput
+      <FormInput onSubmit={handleSubmit}
         labelValue={firstName}
-        onChangeText={(userPassword) => setFirstName(userPassword)}
+        onChangeText={(firstName) => setFirstName(firstName)}
         placeholderText="First Name"
         iconType="pencil"
       />
       
-      <FormInput
+      <FormInput onSubmit={handleSubmit}
         labelValue={lastName}
-        onChangeText={(userPassword) => setLastName(userPassword)}
+        onChangeText={(lastName) => setLastName(lastName)}
         placeholderText="Last Name"
         iconType="pencil"
       />
 
-      <FormInput
+      <FormInput onSubmit={handleSubmit}
         labelValue={email}
         onChangeText={(userEmail) => setEmail(userEmail)}
         placeholderText="Email"
@@ -48,7 +72,7 @@ const SignUpScreen = ({navigation}) => {
         autoCorrect={false}
       />
 
-      <FormInput
+      <FormInput onSubmit={handleSubmit}
         labelValue={password}
         onChangeText={(userPassword) => setPassword(userPassword)}
         placeholderText="Password"
@@ -56,7 +80,7 @@ const SignUpScreen = ({navigation}) => {
         secureTextEntry={true}
       />
 
-      <FormInput
+      <FormInput onSubmit={handleSubmit}
         labelValue={confirmPassword}
         onChangeText={(userPassword) => setConfirmPassword(userPassword)}
         placeholderText="Confirm Password"
@@ -66,7 +90,7 @@ const SignUpScreen = ({navigation}) => {
 
       <FormButton
         buttonTitle="Sign Up"
-        onPress={() => navigation.navigate('Home')}
+        onPress={() => handleSubmit }
       />
     
 

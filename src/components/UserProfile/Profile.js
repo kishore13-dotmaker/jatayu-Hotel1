@@ -11,8 +11,6 @@ import {
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 
-import files from '../../assets/filesBase64';
-
 import ProfileStyles from './ProfileStyle';
 
 const ProfileScreen = () => {
@@ -23,9 +21,7 @@ const ProfileScreen = () => {
       <View style={ProfileStyles.userInfoSection}>
         <View style={{flexDirection: 'row', marginTop: 15}}>
           <Avatar.Image 
-            source={{
-              uri: 'https://api.adorable.io/avatars/80/abott@adorable.png',
-            }}
+           source={require("../../assets/images/app_icon/profile.jpg")}
             size={80}
           />
           <View style={{marginLeft: 20}}>
@@ -41,7 +37,7 @@ const ProfileScreen = () => {
       <View style={ProfileStyles.userInfoSection}>
         <View style={ProfileStyles.row}>
           <Icon name="map-marker-radius" color="#777777" size={20}/>
-          <Text style={{color:"#777777", marginLeft: 20}}>Kolkata, India</Text>
+          <Text style={{color:"#777777", marginLeft: 20}}>Chennai, India</Text>
         </View>
         <View style={ProfileStyles.row}>
           <Icon name="phone" color="#777777" size={20}/>
@@ -52,10 +48,7 @@ const ProfileScreen = () => {
           <Text style={{color:"#777777", marginLeft: 20}}>john_doe@email.com</Text>
         </View>
       </View>
-
-
-
-      <View style={ProfileStyles.menuWrapper}>
+      <View >
         <TouchableRipple onPress={() => {}}>
           <View style={ProfileStyles.menuItem}>
             <Icon name="heart-outline" color="#FF6347" size={25}/>
@@ -80,12 +73,7 @@ const ProfileScreen = () => {
             <Text style={ProfileStyles.menuItemText}>Support</Text>
           </View>
         </TouchableRipple>
-        <TouchableRipple onPress={() => {}}>
-          <View style={ProfileStyles.menuItem}>
-            <Icon name="settings-outline" color="#FF6347" size={25}/>
-            <Text style={ProfileStyles.menuItemText}>Settings</Text>
-          </View>
-        </TouchableRipple>
+       
       </View>
     </SafeAreaView>
       );
