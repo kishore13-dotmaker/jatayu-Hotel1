@@ -6,42 +6,41 @@ import DismissKeyboard from '../../utils/DismissKeyboard';
 import SignUpStyles from './SignUpStyles';
 // import { AuthContext } from '../../navigation/AuthProviders';
 import SocialButtons  from "../Buttons/SocialButtons";
-import Axis from 'axios';
+
 
 
 
 const SignUpScreen = ({navigation}) => {
-  const [usename, setUsername] = useState();
+ 
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [confirmPassword, setConfirmPassword] = useState();
   const [firstName , setFirstName] = useState();
   const [lastName , setLastName] = useState();
 
-  const postData= () => {
 
-  }
 
   // const {login} = useContext(AuthContext);
   const handleSubmit = () => { 
-    fetch('https://localhost:3000/registerCustomer', {
+    fetch('http://172.19.17.164:3000/registerCustomer', {
 			method: 'POST',
 			header:{
 				'Accept': 'application/json',
 				'Content-type': 'application/json'
 			},
-			body:JSON.stringify({
+		    body:JSON.stringify({
 				firstName: firstName,
 				lastName: lastName,
-				email: email,
+				username: email,
         password: password,
         confirmPassword: confirmPassword,
 			})
 			
 		})
+
 		.then((response) => response.json())
 			.then((responseJson) =>{
-				alert(responseJson);
+				console.log(responseJson);
 			})
 			.catch((error)=>{
 				console.error(error);
