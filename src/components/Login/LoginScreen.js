@@ -14,6 +14,38 @@ const LoginScreen = ({navigation}) => {
   const [password, setPassword] = useState();
 
   // const {login} = useContext(AuthContext);
+  const handleSubmit = () => { 
+    var details = {
+      username: email,
+      password: password,
+    }
+    var formBody = [];
+    for (var property in details) {
+      var encodedKey = encodeURIComponent(property);
+      var encodedValue = encodeURIComponent(details[property]);
+      formBody.push(encodedKey + "=" + encodedValue);
+    }
+    formBody = formBody.join("&");
+    fetch('http://192.168.1.6:3000/loginCustomer', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+      },
+      body: formBody
+    })
+		.then((response) => response.json())
+			.then((responseJson) =>{
+				console.log(responseJson);
+			})
+			.catch((error)=>{
+				console.error(error);
+			});
+     console.log( JSON.stringify({
+				username: email,
+        password: password,
+			})
+     )
+}
 
   return (
     <DismissKeyboard>
@@ -45,7 +77,8 @@ const LoginScreen = ({navigation}) => {
 
       <FormButton
         buttonTitle="Sign In"
-        onPress={() => navigation.navigate('Home')}
+        onPress={() => handleSubmit() }
+
       />
 
       <TouchableOpacity style={LoginStyles.forgotButton} onPress={() => navigation.navigate('ForgotPassword')}>
@@ -67,6 +100,7 @@ const LoginScreen = ({navigation}) => {
         >
         <Text style={LoginStyles.navButtonText}>
           Don't have an acount? Create here
+          
         </Text>
       </TouchableOpacity>
     </View>

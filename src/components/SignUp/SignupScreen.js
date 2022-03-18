@@ -93,7 +93,7 @@ const SignUpScreen = ({navigation}) => {
 
       <FormButton
         buttonTitle="Sign Up"
-        onPress={() => handleSubmit() }
+        onPress={() => navigation.navigate('Home')}
       />
     
 
