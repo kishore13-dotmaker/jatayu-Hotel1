@@ -20,18 +20,18 @@ const SignUpScreen = ({navigation}) => {
 
   // const {login} = useContext(AuthContext);
   const handleSubmit = () => { 
-    fetch('https://hardeepwork.000webhostapp.com/react/register.php', {
+    fetch('https://localhost:3000/registerCustomer', {
 			method: 'POST',
 			header:{
 				'Accept': 'application/json',
 				'Content-type': 'application/json'
 			},
 			body:JSON.stringify({
-				firstName: setFirstName,
-				lastName: setLastName,
-				email: setEmail,
-        password: setPassword,
-        confirmPassword: setConfirmPassword,
+				firstName: firstName,
+				lastName: lastName,
+				username: username,
+        password: password,
+        confirmPassword: confirmPassword,
 			})
 			
 		})
