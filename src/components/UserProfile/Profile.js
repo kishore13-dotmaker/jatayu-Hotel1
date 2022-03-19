@@ -9,7 +9,7 @@ import {
 } from 'react-native-paper';
 
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-
+import EditProfileScreen from './Profileimage';
 
 import ProfileStyles from './ProfileStyle';
 
@@ -19,6 +19,7 @@ const ProfileScreen = () => {
       <SafeAreaView style={ProfileStyles.container}>
 
       <View style={ProfileStyles.userInfoSection}>
+      <TouchableOpacity onPress={() => navigation.navigate('Profileimage')}></TouchableOpacity>
         <View style={{flexDirection: 'row', marginTop: 15}}>
           <Avatar.Image 
            source={require("../../assets/images/app_icon/profile.jpg")}

@@ -22,29 +22,42 @@ const SignUpScreen = ({navigation}) => {
 
   // const {login} = useContext(AuthContext);
   const handleSubmit = () => { 
+    var details = {
+      firstName: firstName,
+			lastName: lastName,
+			username: email,
+      password: password,
+      confirmPassword: confirmPassword,
+    }
+    var formBody = [];
+    for (var property in details) {
+      var encodedKey = encodeURIComponent(property);
+      var encodedValue = encodeURIComponent(details[property]);
+      formBody.push(encodedKey + "=" + encodedValue);
+    }
+    formBody = formBody.join("&");
     fetch('http://172.19.17.164:3000/registerCustomer', {
-			method: 'POST',
-			header:{
-				'Accept': 'application/json',
-				'Content-type': 'application/json'
-			},
-		    body:JSON.stringify({
-				firstName: firstName,
-				lastName: lastName,
-				username: email,
-        password: password,
-        confirmPassword: confirmPassword,
-			})
-			
-		})
-
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+      },
+      body: formBody
+    })
 		.then((response) => response.json())
 			.then((responseJson) =>{
 				console.log(responseJson);
 			})
 			.catch((error)=>{
 				console.error(error);
-			});
+			});console.log( JSON.stringify({
+				firstName: firstName,
+			lastName: lastName,
+			username: email,
+      password: password,
+      confirmPassword: confirmPassword,
+			})
+     )
 }
  
   return (
@@ -93,7 +106,7 @@ const SignUpScreen = ({navigation}) => {
 
       <FormButton
         buttonTitle="Sign Up"
-        onPress={() => navigation.navigate('Home')}
+        onPress={() => handleSubmit() }
       />
     
 

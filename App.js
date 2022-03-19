@@ -91,6 +91,7 @@ const App = () => {
       name="ProfileScreen"
       component={ProfileScreen}
       />
+      
 
     </Stack.Navigator>
   </NavigationContainer>

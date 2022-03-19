@@ -26,7 +26,7 @@ const LoginScreen = ({navigation}) => {
       formBody.push(encodedKey + "=" + encodedValue);
     }
     formBody = formBody.join("&");
-    fetch('http://192.168.1.6:3000/loginCustomer', {
+    fetch('http://172.19.17.164:3000/loginCustomer', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
@@ -78,7 +78,6 @@ const LoginScreen = ({navigation}) => {
       <FormButton
         buttonTitle="Sign In"
         onPress={() => handleSubmit() }
-
       />
 
       <TouchableOpacity style={LoginStyles.forgotButton} onPress={() => navigation.navigate('ForgotPassword')}>

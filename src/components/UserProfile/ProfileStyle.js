@@ -4,6 +4,11 @@ const ProfileStyles = StyleSheet.create({
     container: {
       flex: 1,
     },
+    panel: {
+      padding: 20,
+      backgroundColor: '#FFFFFF',
+      paddingTop: 20,
+    },
     userInfoSection: {
       paddingHorizontal: 30,
       marginBottom: 25,
