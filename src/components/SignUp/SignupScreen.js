@@ -18,7 +18,17 @@ const SignUpScreen = ({navigation}) => {
   const [firstName , setFirstName] = useState();
   const [lastName , setLastName] = useState();
 
-
+  const getMyObject = async () => {
+    try {
+      const jsonValue = await AsyncStorage.getItem('@key')
+      return jsonValue != null ? JSON.parse(jsonValue) : null
+    } catch(e) {
+      // read error
+    }
+  
+    console.log('Done.')
+  
+  }
 
   // const {login} = useContext(AuthContext);
   const handleSubmit = () => { 
@@ -27,7 +37,8 @@ const SignUpScreen = ({navigation}) => {
 			lastName: lastName,
 			username: email,
       password: password,
-      confirmPassword: confirmPassword,
+      verifyPassword: confirmPassword,
+
     }
     var formBody = [];
     for (var property in details) {
@@ -55,7 +66,7 @@ const SignUpScreen = ({navigation}) => {
 			lastName: lastName,
 			username: email,
       password: password,
-      confirmPassword: verifyPassword,
+      verifyPassword: confirmPassword,
 			})
      )
 }
