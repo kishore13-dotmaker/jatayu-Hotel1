@@ -6,10 +6,10 @@ import DismissKeyboard from '../../utils/DismissKeyboard';
 import LoginStyles from './LoginStyles';
 // import { AuthContext } from '../../navigation/AuthProviders';
 import SocialButtons  from "../Buttons/SocialButtons";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
-
-const LoginScreen = ({navigation}) => {
+const LoginScreen = async ({navigation}) => {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
 
@@ -34,6 +34,14 @@ const LoginScreen = ({navigation}) => {
       body: formBody
     })
 		.then((response) => response.json())
+    .then(async (data)=>{
+      try {
+        await AsyncStorage.setItem('accessToken',data.accessToken)
+        props.navigation.replace("Home")
+      } catch (error) {
+        console.error(error)
+      }
+})
 			.then((responseJson) =>{
 				console.log(responseJson);
 			})
