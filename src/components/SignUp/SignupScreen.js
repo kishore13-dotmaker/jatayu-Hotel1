@@ -55,7 +55,7 @@ const SignUpScreen = ({navigation}) => {
 			lastName: lastName,
 			username: email,
       password: password,
-      confirmPassword: confirmPassword,
+      confirmPassword: verifyPassword,
 			})
      )
 }
