@@ -27,7 +27,7 @@ const SignUpScreen = ({navigation}) => {
 			lastName: lastName,
 			username: email,
       password: password,
-      confirmPassword: confirmPassword,
+      verifyPassword: confirmPassword,
     }
     var formBody = [];
     for (var property in details) {
@@ -36,7 +36,7 @@ const SignUpScreen = ({navigation}) => {
       formBody.push(encodedKey + "=" + encodedValue);
     }
     formBody = formBody.join("&");
-    fetch('http://172.19.17.164:3000/registerCustomer', {
+    fetch('http://192.168.1.6:3000/registerCustomer', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
