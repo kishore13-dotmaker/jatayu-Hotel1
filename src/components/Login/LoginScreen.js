@@ -6,7 +6,7 @@ import DismissKeyboard from '../../utils/DismissKeyboard';
 import LoginStyles from './LoginStyles';
 // import { AuthContext } from '../../navigation/AuthProviders';
 import SocialButtons  from "../Buttons/SocialButtons";
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as SecureStore from 'expo-secure-store'
 
 
 const LoginScreen = ({navigation}) => {
@@ -39,15 +39,10 @@ const LoginScreen = ({navigation}) => {
       body: formBody
     })
 		.then((response) => response.json())
-    .then( async (responseJson) =>{
-      try {
-        await AsyncStorage.setItem('accessToken',JSON.stringify(responseJson.accessToken))
-        const AccessToken = AsyncStorage.getItem('accessToken')
-        console.log(AccessToken)
-        navigation.replace("Home")
-      } catch (e) {
-        console.log(e)
-      }
+    .then(async(responseJson) =>{
+      await SecureStore.setItemAsync('accessToken',responseJson.accessToken)
+
+      navigation.replace("Home")
 })
     
     .catch((error)=>{

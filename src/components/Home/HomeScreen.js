@@ -16,12 +16,19 @@ import ListOptions from "../ListOptions/ListOptions";
 import Categories from "../Categories/Categories";
 import Card from "../ShopCards/card";
 import shops from "../consts/shops";
+import * as SecureStore from 'expo-secure-store'
+
+
 
 
 const { width } = Dimensions.get("screen");
 
-const Home = ({ navigation }) => {
-
+const Home =  ({ navigation }) => {
+  async function getToken(){
+    var accessToken =  await SecureStore.getItemAsync('accessToken')
+    console.log(accessToken)
+  }
+  getToken()
   return (
     <SafeAreaView style={HomeStyles.safeArea}>
       <StatusBar
