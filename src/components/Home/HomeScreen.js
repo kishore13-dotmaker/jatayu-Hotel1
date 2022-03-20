@@ -21,6 +21,7 @@ import shops from "../consts/shops";
 const { width } = Dimensions.get("screen");
 
 const Home = ({ navigation }) => {
+
   return (
     <SafeAreaView style={HomeStyles.safeArea}>
       <StatusBar

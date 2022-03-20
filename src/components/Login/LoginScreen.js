@@ -39,26 +39,22 @@ const LoginScreen = ({navigation}) => {
       body: formBody
     })
 		.then((response) => response.json())
-    .then((responseJson) =>{
-      console.log(responseJson);
-    })
-			.then(async (data)=>{
-        try {
-          await AsyncStorage.setItem('accessToken',JSON.stringify(data.accessToken))
-          navigation.replace("Home")
-        } catch (e) {
-          console.log(e)
-        }
- })
-			.catch((error)=>{
-				console.error(error);
-			});
-     console.log( JSON.stringify({
-				username: email,
-        password: password,
-			})
-     )
-}
+    .then( async (responseJson) =>{
+      try {
+        await AsyncStorage.setItem('accessToken',JSON.stringify(responseJson.accessToken))
+        const AccessToken = AsyncStorage.getItem('accessToken')
+        console.log(AccessToken)
+        navigation.replace("Home")
+      } catch (e) {
+        console.log(e)
+      }
+})
+    
+    .catch((error)=>{
+      console.error(error);
+    });
+  }
+    
 
   return (
     <DismissKeyboard>
