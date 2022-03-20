@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useEffect, useContext, useState} from 'react';
 import {View, Text, TouchableOpacity, Image, StyleSheet} from 'react-native';
 import FormInput from '../Input/FormInput';
 import FormButton from '../Buttons/FormButton';
@@ -9,9 +9,13 @@ import SocialButtons  from "../Buttons/SocialButtons";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
-const LoginScreen = async ({navigation}) => {
+const LoginScreen = ({navigation}) => {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
+  const [isloggedin,setLogged] = useState();
+
+
+ 
 
   // const {login} = useContext(AuthContext);
   const handleSubmit = () => { 
@@ -29,22 +33,23 @@ const LoginScreen = async ({navigation}) => {
     fetch('http://172.19.17.164:3000/loginCustomer', {
       method: 'POST',
       headers: {
+        'Accept': 'application/json',
         'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
       },
       body: formBody
     })
 		.then((response) => response.json())
-    .then(async (data)=>{
-      try {
-        await AsyncStorage.setItem('accessToken',data.accessToken)
-        props.navigation.replace("Home")
-      } catch (error) {
-        console.error(error)
-      }
-})
-			.then((responseJson) =>{
-				console.log(responseJson);
-			})
+    .then((responseJson) =>{
+      console.log(responseJson);
+    })
+			.then(async (data)=>{
+        try {
+          await AsyncStorage.setItem('accessToken',JSON.stringify(data.accessToken))
+          navigation.replace("Home")
+        } catch (e) {
+          console.log(e)
+        }
+ })
 			.catch((error)=>{
 				console.error(error);
 			});
@@ -86,6 +91,7 @@ const LoginScreen = async ({navigation}) => {
       <FormButton
         buttonTitle="Sign In"
         onPress={() => handleSubmit() }
+        
       />
 
       <TouchableOpacity style={LoginStyles.forgotButton} onPress={() => navigation.navigate('ForgotPassword')}>
