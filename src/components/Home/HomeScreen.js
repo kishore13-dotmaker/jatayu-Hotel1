@@ -8,7 +8,11 @@ import {
   Pressable,
   Dimensions,
 } from "react-native";
-import { FlatList, ScrollView, TouchableOpacity } from "react-native-gesture-handler";
+import {
+  FlatList,
+  ScrollView,
+  TouchableOpacity,
+} from "react-native-gesture-handler";
 import Colors from "../../assets/colors/colors";
 import HomeStyles from "./HomeScreenStyles";
 import SearchBar from "../SearchBar/SerachBar";
@@ -16,19 +20,39 @@ import ListOptions from "../ListOptions/ListOptions";
 import Categories from "../Categories/Categories";
 import Card from "../ShopCards/card";
 import shops from "../consts/shops";
-import * as SecureStore from 'expo-secure-store'
-
-
-
+import * as SecureStore from "expo-secure-store";
 
 const { width } = Dimensions.get("screen");
 
-const Home =  ({ navigation }) => {
-  async function getToken(){
-    var accessToken =  await SecureStore.getItemAsync('accessToken')
-    console.log(accessToken)
+const Home = ({ navigation }) => {
+  const handleSubmit = async () => {
+    var accessToken = await SecureStore.getItemAsync("accessToken");
+    var details = {
+      accessToken: accessToken,
+    };
+    var formBody = [];
+    for (var property in details) {
+      var encodedKey = encodeURIComponent(property);
+      var encodedValue = encodeURIComponent(details[property]);
+      formBody.push(encodedKey + "=" + encodedValue);
+    }
+    formBody = formBody.join("&");
+    fetch('http://172.19.14.252:3000/findUser', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+      },
+      body: formBody
+    })
+    .then((response) => response.json())
+    .then(async(responseJson) =>{
+     (navigation.navigate("Profile"))
+     await SecureStore.setItemAsync('username',responseJson.user.username)
+     await SecureStore.setItemAsync('name',responseJson.user.firstName)
+})
   }
-  getToken()
+
   return (
     <SafeAreaView style={HomeStyles.safeArea}>
       <StatusBar
@@ -45,32 +69,34 @@ const Home =  ({ navigation }) => {
             Chennai
           </Text>
         </View>
-        <Pressable onPress={() => navigation.navigate('ProfileScreen')}>
-        <Image
-          source={require("../../assets/images/app_icon/profile.jpg")}
-          style={HomeStyles.profileImage}
-        />
+        <Pressable
+          onPress={() => {
+            handleSubmit();
+          }}
+        >
+          <Image
+            source={require("../../assets/images/app_icon/profile.jpg")}
+            style={HomeStyles.profileImage}
+           
+          />
         </Pressable>
       </View>
-      
-        <SearchBar />
-        <Categories />
 
-        <FlatList
-          snapToInterval={width - 20}
-          contentontainerStyle={HomeStyles.contentontainerStyle}
-          showsHorizontalScrollIndicator={false}
-          vertical={true}
-          data={shops}
-          renderItem={({ item }) => (
-            <Pressable
-              onPress={() => navigation.navigate("DetailedPage", item)}
-            >
-              <Card item={item} />
-            </Pressable>
-          )}
-        />
-      
+      <SearchBar />
+      <Categories />
+
+      <FlatList
+        snapToInterval={width - 20}
+        contentontainerStyle={HomeStyles.contentontainerStyle}
+        showsHorizontalScrollIndicator={false}
+        vertical={true}
+        data={shops}
+        renderItem={({ item }) => (
+          <Pressable onPress={() => navigation.navigate("DetailedPage", item)}>
+            <Card item={item} />
+          </Pressable>
+        )}
+      />
     </SafeAreaView>
   );
 };

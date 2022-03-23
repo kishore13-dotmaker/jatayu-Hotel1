@@ -13,7 +13,7 @@ import AppLoading from 'expo-app-loading';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 // import Routes from './src/Navigation/Routes';
-
+import BookingHistory from './src/components/BookingHistory/bookingHistory';
 const Stack = createNativeStackNavigator();
 
 const App = () => {
@@ -88,10 +88,13 @@ const App = () => {
       component={StripePayment}
       />
       <Stack.Screen 
-      name="ProfileScreen"
+      name="Profile"
       component={ProfileScreen}
       />
-      
+      <Stack.Screen 
+      name="BookingHistory"
+      component={BookingHistory}
+      />
       
 
     </Stack.Navigator>
