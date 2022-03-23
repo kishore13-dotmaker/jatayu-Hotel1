@@ -10,7 +10,7 @@ import PaymentStyles from './PaymentStyles';
 
 const PaymentScreen = ({ navigation, props }) => {
   //ADD localhost address of your server
-  const API_URL = "http://localhost:8080";
+  const API_URL = "http://localhost:3000";
 
   const [email, setEmail] = useState();
   // const [cardDetails, setCardDetails] = useState();

@@ -30,7 +30,7 @@ const LoginScreen = ({navigation}) => {
       formBody.push(encodedKey + "=" + encodedValue);
     }
     formBody = formBody.join("&");
-    fetch('http://192.168.1.6:3000/loginCustomer', {
+    fetch('http://172.19.14.185:3000/loginCustomer', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -43,9 +43,7 @@ const LoginScreen = ({navigation}) => {
       await SecureStore.setItemAsync('accessToken',responseJson.accessToken)
 
       navigation.replace("Home")
-})
-    
-    .catch((error)=>{
+}).catch((error)=>{
       console.error(error);
     });
   }
