@@ -6,7 +6,7 @@ import DismissKeyboard from '../../utils/DismissKeyboard';
 import LoginStyles from './LoginStyles';
 // import { AuthContext } from '../../navigation/AuthProviders';
 import SocialButtons  from "../Buttons/SocialButtons";
-import * as SecureStore from 'expo-secure-store'
+import * as SecureStore from 'expo-secure-store';
 
 
 const LoginScreen = ({navigation}) => {
@@ -30,7 +30,7 @@ const LoginScreen = ({navigation}) => {
       formBody.push(encodedKey + "=" + encodedValue);
     }
     formBody = formBody.join("&");
-    fetch('http://192.168.1.6:3000/loginCustomer', {
+    fetch('http://172.19.14.252:3000/loginCustomer', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -41,7 +41,6 @@ const LoginScreen = ({navigation}) => {
 		.then((response) => response.json())
     .then(async(responseJson) =>{
       await SecureStore.setItemAsync('accessToken',responseJson.accessToken)
-
       navigation.replace("Home")
 })
     
