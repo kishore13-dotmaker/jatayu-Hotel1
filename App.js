@@ -9,7 +9,7 @@ import StripePayment from './src/components/StripePayment/Payment';
 import ProfileScreen from './src/components/UserProfile/Profile'
 import { useFonts } from 'expo-font';
 import AppLoading from 'expo-app-loading';
-
+import Popup from './src/components/DetailedPage/Popup'
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 // import Routes from './src/Navigation/Routes';
@@ -94,6 +94,10 @@ const App = () => {
       <Stack.Screen 
       name="BookingHistory"
       component={BookingHistory}
+      />
+      <Stack.Screen 
+      name="Popup"
+      component={Popup}
       />
       
 

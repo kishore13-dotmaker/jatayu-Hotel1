@@ -1,5 +1,5 @@
-import React from "react";
-import { SafeAreaView, View, Text, FlatList, Dimensions } from "react-native";
+import React, {useEffect, useContext, useState} from "react";
+import { SafeAreaView, View, Text, FlatList, Dimensions, TextInput  } from "react-native";
 import ImageBackground from "react-native/Libraries/Image/ImageBackground";
 import DetailsStyles from "./DetailedPageStyle";
 import { StatusBar } from "expo-status-bar";
@@ -13,6 +13,7 @@ import FormButton from '../Buttons/FormButton';
 const { width } = Dimensions.get("screen");
 
 const DetailedPage = ({ navigation, route }) => {
+  
   const item = route.params;
   return (
     <SafeAreaView style={DetailsStyles.SafeAreaView}>
@@ -60,7 +61,7 @@ const DetailedPage = ({ navigation, route }) => {
             keyExtractor={(_, key) => key.toString()}
             contentContainerStyle={{ marginTop: 20 }}
             horizontal
-            showsHorizontalScrollIndicator={false}
+            showsHorizontalScrollIndicator={true}
             data={item.phoneImage}
             renderItem={({ item }) => <PhoneImage image={item} />}
           />
@@ -74,17 +75,22 @@ const DetailedPage = ({ navigation, route }) => {
                 style={{ marginLeft: 10 }}
               />
             </View>
+            <TouchableOpacity
+            onPress={() => navigation.navigate("Popup") }>
             <View style={DetailsStyles.bookNow}>
-              <Text style={{ color: Colors.white }}>Schedule Now</Text>
+              <Text style={{ color: Colors.white }}>Book Now</Text>
             </View>
+              </TouchableOpacity>
+
           </View>
         </View>
-        <FormButton
+        {/* <FormButton
         buttonTitle="Checkout"
         onPress={() => navigation.navigate('StripePayment')}
-      />
-      </ScrollView>
+      /> */}
+    </ScrollView>
     </SafeAreaView>
+    
   );
 };
 

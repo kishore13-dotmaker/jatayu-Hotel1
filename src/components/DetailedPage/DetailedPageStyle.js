@@ -86,6 +86,15 @@ const DetailsStyles = StyleSheet.create({
     borderRadius: 10,
     paddingHorizontal: 20,
   },
+  row: {
+    flexDirection: "row",
+  },
+  input: {
+    height: 40,
+    margin: 12,
+    borderWidth: 1,
+    padding: 10,
+  },
 });
 
 export default DetailsStyles;

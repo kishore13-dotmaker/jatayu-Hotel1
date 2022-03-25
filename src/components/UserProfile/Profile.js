@@ -7,16 +7,39 @@ import {
   Text,
   TouchableRipple,
 } from 'react-native-paper';
-
+import { launchImageLibrary } from 'react-native-image-picker';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import EditProfileScreen from './Profileimage';
 import * as SecureStore from 'expo-secure-store'
 import ProfileStyles from './ProfileStyle';
-
+import DocumentPicker from 'react-native-document-picker';
+import * as ImagePicker from 'expo-image-picker';
 const ProfileScreen = ({navigation}) => {
   const [username, setUserName] = useState();
   const [Name, setName] = useState();
+  const [image, setImage] = useState();
+  const [filepath, setFilePath] = useState();
 
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+   var file =  await SecureStore.getItemAsync("result.uri")
+   if (file !== null){
+     setFilePath(file);
+   }
+    console.log(result);
+    console.log(filepath);
+    
+    if (!result.cancelled) {
+      setImage(result.uri);
+    }
+    // uploadImage();
+  };
   const handleSubmit = async () => {
   var username =  await SecureStore.getItemAsync("username")
    if (username !== null){
@@ -33,25 +56,57 @@ const ProfileScreen = ({navigation}) => {
   //   accessToken: accessToken,
   // }
   // console.log(details);
-  }
+  };
+//   const uploadImage = async () => {
+//     // Check if any file is selected or not
+//     if (image != null) {
+//       const accessToken = await SecureStore.getItemAsync("accessToken");
+//       var details = {
+//         accessToken: accessToken,
+//         filepath: filepath,
+//       };
+//       var formBody = [];
+//       for (var property in details) {
+//         var encodedKey = encodeURIComponent(property);
+//         var encodedValue = encodeURIComponent(details[property]);
+//         formBody.push(encodedKey + "=" + encodedValue);
+  
+//       }
+//       formBody = formBody.join("&");
+//       const postResponse = fetch("http://172.19.17.164:3000/upload-profile", {
+//         method: "POST",
+//         headers: {
+//         'Accept': 'application/json',
+//         'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+//         },
+//         body: formBody,
+//       })
+//         .then((response) => response.json())
+//         .then((responseJson) => {
+//           console.log(responseJson)
+//         });
+//   }
+// }
  handleSubmit();
     return (
       <SafeAreaView style={ProfileStyles.container}>
 
       <View style={ProfileStyles.userInfoSection}>
-      <TouchableOpacity onPress={() => navigation.navigate('Profileimage')}></TouchableOpacity>
         <View style={{flexDirection: 'row', marginTop: 15}}>
+      <TouchableOpacity onPress={() =>pickImage() }>
           <Avatar.Image 
-           source={require("../../assets/images/app_icon/profile.jpg")}
+           source={{uri:image}}
             size={80}
           />
+        </TouchableOpacity>
           <View style={{marginLeft: 20}}>
+          
             <Title style={[ProfileStyles.title, {
               marginTop:15,
               marginBottom: 5,
             }]}>{Name}</Title>
             <Caption style={ProfileStyles.caption}>{username}</Caption>
-          </View>
+          </View> 
         </View>
       </View>
 

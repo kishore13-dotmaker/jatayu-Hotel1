@@ -10,6 +10,8 @@ import {
 } from "react-native";
 import BookingHistoryStyles from "./bookingHistoryStyle";
 import * as SecureStore from 'expo-secure-store'
+import * as ImagePicker from 'expo-image-picker';
+import { StackActions } from '@react-navigation/native';
 const { width } = Dimensions.get("screen");
 export default class App extends Component {
   constructor() {
