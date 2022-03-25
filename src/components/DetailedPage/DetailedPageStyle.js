@@ -110,7 +110,8 @@ const DetailsStyles = StyleSheet.create({
   button: {
     borderRadius: 20,
     padding: 10,
-    elevation: 2
+    elevation: 2,
+    marginTop: 10,
   },
   buttonOpen: {
     backgroundColor: "#F194FF",

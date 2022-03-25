@@ -28,7 +28,9 @@ const PopUpstyles = StyleSheet.create({
     button: {
       borderRadius: 20,
       padding: 10,
-      elevation: 2
+      elevation: 2,
+      paddingBottom: 10,
+      paddingTop: 10
     },
     buttonOpen: {
       backgroundColor: "#F194FF",

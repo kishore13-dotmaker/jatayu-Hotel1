@@ -3,13 +3,18 @@ import { View, Text, StyleSheet, TextInput, Button, Alert } from "react-native";
 import { StripeProvider } from "@stripe/stripe-react-native";
 import { useStripe } from "@stripe/stripe-react-native";
 
-
+import * as SecureStore from 'expo-secure-store';
 import PaymentStyles from './PaymentStyles';
 
 
 
-const PaymentScreen = ({ navigation, props }) => {
+const PaymentScreen = async ({ navigation, props }) => {
   //ADD localhost address of your server
+  var checkin =  await SecureStore.getItemAsync("checkin")
+  var checkout =  await SecureStore.getItemAsync("checkout")
+  var guests =  await SecureStore.getItemAsync("guests")
+  var roomCategory =  await SecureStore.getItemAsync("roomCategory")
+  var accessToken =  await SecureStore.getItemAsync("accessToken")
   const API_URL = "http://172.19.14.252:3000";
 
   const [email, setEmail] = useState();
@@ -56,7 +61,36 @@ const PaymentScreen = ({ navigation, props }) => {
           clientSecret,
         });
         if (presentSheet.error) return Alert.alert(presentSheet.error.message);
-        Alert.alert("Payment complete, thank you!");
+        // Alert.alert("Booking Successful");
+        // var details = {
+        //   check_in: checkin,
+        //   check_out: checkout,
+        //   category : roomCategory,
+        //   guests: guests
+        // }
+        // var formBody = [];
+        // for (var property in details) {
+        //   var encodedKey = encodeURIComponent(property);
+        //   var encodedValue = encodeURIComponent(details[property]);
+        //   formBody.push(encodedKey + "=" + encodedValue);
+        // }
+        // formBody = formBody.join("&");
+        // fetch('http://192.168.1.6:3000/newBooking', {
+        //   method: 'POST',
+        //   headers: {
+        //     'Accept': 'application/json',
+        //     'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+        //   },
+        //   body: formBody
+        // })
+        // .then((response) => response.json())
+        //   .then((responseJson) =>{
+        //     console.log(responseJson);
+        //   })
+        //   .catch((error)=>{
+        //     console.error(error);
+        //   });
+    
       };
 
     } catch (e) {

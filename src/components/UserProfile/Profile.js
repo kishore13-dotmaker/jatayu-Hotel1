@@ -52,28 +52,31 @@ const ProfileScreen = ({navigation}) => {
   // }
   // console.log(details);
   };
-  const uploadImage = async (accessToken) => {
+  const uploadImage =  (image) => {
     // Check if any file is selected or not
-      var details = {
-        accessToken: accessToken,
-        image: image,
-        type: 'image/jpg',
+      // var details = {
+      //   accessToken: accessToken,
+      //   image: image,
+      //   type: 'image/jpg',
 
-      };
-      const formData = new FormData();
-      formData.append('profile', {
+      // };
+      const form = new FormData();
+      form.append("Files", {
         accessToken: accessToken,
-        name: new Date() + '_profile',
-        uri: image,
-        type: 'image/jpg',
-      })
-      const postResponse = fetch("http://172.19.14.252:3000/upload-profile", {
+        name: "SampleFile.jpg", // Whatever your filename is
+        uri: image, //  file:///data/user/0/com.cookingrn/cache/rn_image_picker_lib_temp_5f6898ee-a8d4-48c9-b265-142efb11ec3f.jpg
+        type: "image/jpg", // video/mp4 for videos..or image/png etc...
+      });
+      console.log("here")
+      
+      fetch("http://172.19.14.252:3000/upload-profile", {
         method: "POST",
         headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+        'Content-Type': 'multipart/form-data',
+        Authorization: accessToken
         },
-        body : formData
+        body : form
       })
         .then((response) => response.json())
         .then((responseJson) => {
@@ -136,6 +139,7 @@ const ProfileScreen = ({navigation}) => {
             <Text style={ProfileStyles.menuItemText}>Tell Your Friends</Text>
           </View>
         </TouchableRipple> */}
+
         <TouchableRipple onPress={() => navigation.navigate("BookingHistory")}>
           <View style={ProfileStyles.menuItem}>
             <Icon name="account-check-outline" color="#000" size={25}/>

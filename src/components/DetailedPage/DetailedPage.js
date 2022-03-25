@@ -9,16 +9,108 @@ import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import PhoneImage from "./PhoneImage";
 import FormButton from '../Buttons/FormButton';
 import { Picker } from "@react-native-picker/picker";
+import { StripeProvider } from "@stripe/stripe-react-native";
+import { useStripe } from "@stripe/stripe-react-native";
+import * as SecureStore from 'expo-secure-store'
+
 
 const { width } = Dimensions.get("screen");
 
-const DetailedPage = ({ navigation, route }) => {
+const DetailedPage =  ({ navigation, route, props }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [checkin, setCheckin] = useState();
   const [checkout, setCheckout] = useState();
   const [guests, setGuests] = useState();
   const [roomCategory, setRoomCategory ] = useState('JavaScrpit')
   const item = route.params;
+  const API_URL = "http://172.19.14.252:3000";
+  // const [cardDetails, setCardDetails] = useState();
+  const stripe = useStripe();
+  const [email, setEmail] = useState();
+  var hotel_id = "62323b951ab3cd1006950954";
+  // const { confirmPayment, loading } = useConfirmPayment();
+  
+
+  const fetchPaymentIntentClientSecret = async () => {
+    var email = await SecureStore.getItemAsync("username")
+  
+    setEmail(email)
+    const response = await fetch(`${API_URL}/pay`, {
+      method: "POST",
+      body: JSON.stringify({ email }),
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    });
+
+    const { clientSecret, error } = await response.json();
+    return { clientSecret, error };
+  };
+
+  const handlePayPress = async () => {
+    //1.Gather the customer's billing information (e.g., email)
+    var accessToken = await SecureStore.getItemAsync("accessToken")
+    
+    const billingDetails = {
+      email: email,
+    };
+    //2.Fetch the intent client secret from the backend
+    try {
+      const { clientSecret, error } = await fetchPaymentIntentClientSecret();
+      //2. confirm the payment
+      if (error) {
+        console.log("Unable to process payment");
+      } else {
+
+        const initSheet = await stripe.initPaymentSheet({
+          paymentIntentClientSecret: clientSecret,
+        });
+        if (initSheet.error) return Alert.alert(initSheet.error.message);
+        const presentSheet = await stripe.presentPaymentSheet({
+          clientSecret,
+        });
+        if (presentSheet.error) return Alert.alert(presentSheet.error.message);{
+        
+        var details = {
+          accessToken: accessToken,
+          check_in: checkin,
+          check_out: checkout,
+          category : roomCategory,
+          guests: guests,
+          hotel_id : hotel_id,
+        }
+        var formBody = [];
+        for (var property in details) {
+          var encodedKey = encodeURIComponent(property);
+          var encodedValue = encodeURIComponent(details[property]);
+          formBody.push(encodedKey + "=" + encodedValue);
+        }
+        formBody = formBody.join("&");
+        fetch(`${API_URL}/newBooking`, {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+          },
+          body: formBody
+        })
+        .then((response) => response.json())
+          .then((responseJson) =>{
+            console.log(responseJson);
+          })
+          .catch((error)=>{
+            console.error(error);
+          });
+    
+      };
+    } 
+
+    } catch (e) {
+      console.log(e);
+    }
+    //3.Confirm the payment with the card details
+  };
   return (
     <SafeAreaView style={DetailsStyles.SafeAreaView}>
       <ScrollView>
@@ -140,9 +232,18 @@ const DetailedPage = ({ navigation, route }) => {
                 <Picker.Item label="Luxury" value="luxury" />
               </Picker>
             </View>
+            <StripeProvider publishableKey="pk_test_51KFMKpSFhRwTxyXZDMXbRgR1LeBYbfdyZzuqldHxyFpZz3WYamRyYZ9428b0P8sXpk7zP3QMWJrwcO07dJ5HStGL00FHZ5gd72">
+        {/* <StripeProvider
+          publishableKey="pk_test_51KFMKpSFhRwTxyXZDMXbRgR1LeBYbfdyZzuqldHxyFpZz3WYamRyYZ9428b0P8sXpk7zP3QMWJrwcO07dJ5HStGL00FHZ5gd72"
+          urlScheme="your-url-scheme" // required for 3D Secure and bank redirects
+          merchantIdentifier="merchant.com.{{YOUR_APP_NAME}}" // required for Apple Pay
+        > */}
+
+        {/* </StripeProvider> */}
+
             <Pressable
               style={[DetailsStyles.button, DetailsStyles.buttonClose]}
-              onPress={() => handleSubmit()}
+              onPress={() => handlePayPress()}
             >
               <Text style={DetailsStyles.textStyle}>Confirm Booking</Text>
             </Pressable>
@@ -152,6 +253,8 @@ const DetailedPage = ({ navigation, route }) => {
             >
               <Text style={DetailsStyles.textStyle}>Go Back to Hotel</Text>
             </Pressable>
+            </StripeProvider>
+
           </View>
         </View>
       </Modal>
