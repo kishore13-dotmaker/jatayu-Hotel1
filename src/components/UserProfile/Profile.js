@@ -33,12 +33,12 @@ const ProfileScreen = ({navigation}) => {
      setFilePath(file);
    }
     console.log(result);
-    console.log(filepath);
+    // console.log(filepath);
     
     if (!result.cancelled) {
       setImage(result.uri);
     }
-    // uploadImage();
+    uploadImage();
   };
   const handleSubmit = async () => {
   var username =  await SecureStore.getItemAsync("username")
@@ -57,36 +57,36 @@ const ProfileScreen = ({navigation}) => {
   // }
   // console.log(details);
   };
-//   const uploadImage = async () => {
-//     // Check if any file is selected or not
-//     if (image != null) {
-//       const accessToken = await SecureStore.getItemAsync("accessToken");
-//       var details = {
-//         accessToken: accessToken,
-//         filepath: filepath,
-//       };
-//       var formBody = [];
-//       for (var property in details) {
-//         var encodedKey = encodeURIComponent(property);
-//         var encodedValue = encodeURIComponent(details[property]);
-//         formBody.push(encodedKey + "=" + encodedValue);
+  const uploadImage = async () => {
+    // Check if any file is selected or not
+    if (image != null) {
+      const accessToken = await SecureStore.getItemAsync("accessToken");
+      var details = {
+        accessToken: accessToken,
+        image: image,
+      };
+      var formBody = [];
+      for (var property in details) {
+        var encodedKey = encodeURIComponent(property);
+        var encodedValue = encodeURIComponent(details[property]);
+        formBody.push(encodedKey + "=" + encodedValue);
   
-//       }
-//       formBody = formBody.join("&");
-//       const postResponse = fetch("http://172.19.17.164:3000/upload-profile", {
-//         method: "POST",
-//         headers: {
-//         'Accept': 'application/json',
-//         'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
-//         },
-//         body: formBody,
-//       })
-//         .then((response) => response.json())
-//         .then((responseJson) => {
-//           console.log(responseJson)
-//         });
-//   }
-// }
+      }
+      formBody = formBody.join("&");
+      const postResponse = fetch("http://172.19.14.252:3000/upload-profile", {
+        method: "POST",
+        headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+        },
+        body: formBody,
+      })
+        .then((response) => response.json())
+        .then((responseJson) => {
+          console.log(responseJson)
+        });
+  }
+}
  handleSubmit();
     return (
       <SafeAreaView style={ProfileStyles.container}>
