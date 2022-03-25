@@ -18,9 +18,9 @@ const ProfileScreen = ({navigation}) => {
   const [username, setUserName] = useState();
   const [Name, setName] = useState();
   const [image, setImage] = useState();
-  const [filepath, setFilePath] = useState();
-
+  const [accessToken, setAccessToken] = useState();
   const pickImage = async () => {
+    var accessToken = await SecureStore.getItemAsync("accessToken");
     // No permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -28,16 +28,13 @@ const ProfileScreen = ({navigation}) => {
       aspect: [4, 3],
       quality: 1,
     });
-   var file =  await SecureStore.getItemAsync("result.uri")
-   if (file !== null){
-     setFilePath(file);
-   }
-    // console.log(filepath);
+    // console.log(result);
+    
     
     if (!result.cancelled) {
       setImage(result.uri);
     }
-    uploadImage(image);
+    uploadImage(accessToken); 
   };
   const handleSubmit = async () => {
   var username =  await SecureStore.getItemAsync("username")
@@ -55,35 +52,33 @@ const ProfileScreen = ({navigation}) => {
   // }
   // console.log(details);
   };
-  const uploadImage = async (image) => {
+  const uploadImage = async (accessToken) => {
     // Check if any file is selected or not
-    if (image != null) {
-      const accessToken = await SecureStore.getItemAsync("accessToken");
       var details = {
         accessToken: accessToken,
         image: image,
+        type: 'image/jpg',
+
       };
-      var formBody = [];
-      for (var property in details) {
-        var encodedKey = encodeURIComponent(property);
-        var encodedValue = encodeURIComponent(details[property]);
-        formBody.push(encodedKey + "=" + encodedValue);
-  
-      }
-      formBody = formBody.join("&");
-      const postResponse = fetch("http://172.19.14.185:3000/upload-profile", {
+      const formData = new FormData();
+      formData.append('profile', {
+        accessToken: accessToken,
+        name: new Date() + '_profile',
+        uri: image,
+        type: 'image/jpg',
+      })
+      const postResponse = fetch("http://172.19.14.252:3000/upload-profile", {
         method: "POST",
         headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
         },
-        body: formBody,
+        body : formData
       })
         .then((response) => response.json())
         .then((responseJson) => {
           console.log(responseJson)
         });
-  }
 }
  handleSubmit();
     return (
