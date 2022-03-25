@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import {
   Alert,
   Modal,
-  stylesheet,
   Text,
   Pressable,
   View,
@@ -15,7 +14,7 @@ const Popup = (navigation) => {
   const [checkin, setCheckin] = useState();
   const [checkout, setCheckout] = useState();
   const [guests, setGuests] = useState();
-  const [pickerValue, setPickerValue ] = useState('JavaScrpit')
+  const [roomCategory, setRoomCategory ] = useState('JavaScrpit')
 
   return (
     <View style={PopUpstyles.centeredView}>
@@ -56,12 +55,14 @@ const Popup = (navigation) => {
             <View style={PopUpstyles.container}>
               <Picker
                 style={PopUpstyles.picker}
-                selectedValue={pickerValue}
-                onValueChange={(itemValue) => setPickerValue(itemValue)}
+                selectedValue={roomCategory}
+                onValueChange={(itemValue) => setRoomCategory(itemValue)}
               >
-                <Picker.Item label="JavaScript" value="JavaScrpit" />
-                <Picker.Item label="Java" value="Java" />
-                <Picker.Item label="C#" value="c#" />
+                <Picker.Item label="Single" value="single" />
+                <Picker.Item label="Couple" value="couple" />
+                <Picker.Item label="Super Deluxe" value="superDeluxe" />
+                <Picker.Item label="Deluxe" value="deluxe" />
+                <Picker.Item label="Luxury" value="luxury" />
               </Picker>
             </View>
             <Pressable
@@ -69,6 +70,12 @@ const Popup = (navigation) => {
               onPress={() => handleSubmit()}
             >
               <Text style={PopUpstyles.textStyle}>Confirm Booking</Text>
+            </Pressable>
+            <Pressable
+              style={[PopUpstyles.button, PopUpstyles.buttonClose]}
+              onPress={() => setModalVisible(!modalVisible)}
+            >
+              <Text style={PopUpstyles.textStyle}></Text>
             </Pressable>
           </View>
         </View>
