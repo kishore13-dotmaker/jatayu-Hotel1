@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import React from "react";
+import React,{useState} from "react";
 import {
   SafeAreaView,
   Text,
@@ -7,6 +7,8 @@ import {
   Image,
   Pressable,
   Dimensions,
+  Modal,
+  TextInput
 } from "react-native";
 import {
   FlatList,
@@ -25,6 +27,8 @@ import * as SecureStore from "expo-secure-store";
 const { width } = Dimensions.get("screen");
 
 const Home = ({ navigation }) => {
+  const [modalVisible, setModalVisible] = useState(true);
+  const [location, setLocation] = useState();
   const handleSubmit = async () => {
     var accessToken = await SecureStore.getItemAsync("accessToken");
     var details = {
@@ -54,7 +58,35 @@ const Home = ({ navigation }) => {
   }
 
   return (
+    
     <SafeAreaView style={HomeStyles.safeArea}>
+    <View style={HomeStyles.centeredView}>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <View style={HomeStyles.centeredView}>
+          <View style={HomeStyles.modalView}>
+            <TextInput
+                style={HomeStyles.input}
+                labelValue={location}
+                onChangeText={(location ) => setLocation(location )}
+                placeholder="location"
+              />
+            <Pressable
+              style={[HomeStyles.button, HomeStyles.buttonClose]}
+              onPress={() => setModalVisible(!modalVisible)}
+            >
+              <Text style={HomeStyles.textStyle}>Confirm Locatoin</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
+    </View>
       <StatusBar
         translucent={false}
         backgroundColor={Colors.white}
@@ -66,7 +98,7 @@ const Home = ({ navigation }) => {
           <Text
             style={{ color: Colors.black, fontSize: 20, fontWeight: "bold" }}
           >
-            Chennai
+            {location}
           </Text>
         </View>
         <Pressable
