@@ -37,7 +37,7 @@ const Home = ({ navigation }) => {
       formBody.push(encodedKey + "=" + encodedValue);
     }
     formBody = formBody.join("&");
-    fetch('http://172.19.14.252:3000/findUser', {
+    fetch('http://172.19.14.185:3000/findUser', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',

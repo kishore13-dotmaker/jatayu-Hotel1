@@ -32,13 +32,12 @@ const ProfileScreen = ({navigation}) => {
    if (file !== null){
      setFilePath(file);
    }
-    console.log(result);
     // console.log(filepath);
     
     if (!result.cancelled) {
       setImage(result.uri);
     }
-    uploadImage();
+    uploadImage(image);
   };
   const handleSubmit = async () => {
   var username =  await SecureStore.getItemAsync("username")
@@ -49,7 +48,6 @@ const ProfileScreen = ({navigation}) => {
   if (name !== null){
     setName(name);
   }
-  var accessToken = await SecureStore.getItemAsync("accessToken");
   // var details = {
   //   username: username,
   //   Name: name,                  
@@ -57,7 +55,7 @@ const ProfileScreen = ({navigation}) => {
   // }
   // console.log(details);
   };
-  const uploadImage = async () => {
+  const uploadImage = async (image) => {
     // Check if any file is selected or not
     if (image != null) {
       const accessToken = await SecureStore.getItemAsync("accessToken");
@@ -73,7 +71,7 @@ const ProfileScreen = ({navigation}) => {
   
       }
       formBody = formBody.join("&");
-      const postResponse = fetch("http://172.19.14.252:3000/upload-profile", {
+      const postResponse = fetch("http://172.19.14.185:3000/upload-profile", {
         method: "POST",
         headers: {
         'Accept': 'application/json',
