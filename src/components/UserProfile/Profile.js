@@ -1,5 +1,5 @@
-import React, {useContext, useState} from 'react';
-import {View, SafeAreaView, StyleSheet, TouchableOpacity} from 'react-native';
+import React, { useContext, useState } from 'react';
+import { View, SafeAreaView, StyleSheet, TouchableOpacity } from 'react-native';
 import {
   Avatar,
   Title,
@@ -14,7 +14,7 @@ import * as SecureStore from 'expo-secure-store'
 import ProfileStyles from './ProfileStyle';
 import DocumentPicker from 'react-native-document-picker';
 import * as ImagePicker from 'expo-image-picker';
-const ProfileScreen = ({navigation}) => {
+const ProfileScreen = ({ navigation }) => {
   const [username, setUserName] = useState();
   const [Name, setName] = useState();
   const [image, setImage] = useState();
@@ -29,95 +29,104 @@ const ProfileScreen = ({navigation}) => {
       quality: 1,
     });
     // console.log(result);
-    
-    
+
+
     if (!result.cancelled) {
       setImage(result.uri);
     }
-    uploadImage(accessToken); 
+    uploadImage(accessToken,image);
   };
   const handleSubmit = async () => {
-  var username =  await SecureStore.getItemAsync("username")
-   if (username !== null){
-     setUserName(username);
-   }
-  var name =  await SecureStore.getItemAsync("name");
-  if (name !== null){
-    setName(name);
-  }
-  // var details = {
-  //   username: username,
-  //   Name: name,                  
-  //   accessToken: accessToken,
-  // }
-  // console.log(details);
+    var username = await SecureStore.getItemAsync("username")
+    if (username !== null) {
+      setUserName(username);
+    }
+    var name = await SecureStore.getItemAsync("name");
+    if (name !== null) {
+      setName(name);
+    }
+    // var details = {
+    //   username: username,
+    //   Name: name,                  
+    //   accessToken: accessToken,
+    // }
+    // console.log(details);
   };
-  const uploadImage =  (image) => {
+  const uploadImage = (accessToken,image) => {
     // Check if any file is selected or not
-      // var details = {
-      //   accessToken: accessToken,
-      //   image: image,
-      //   type: 'image/jpg',
+    // var details = {
+    //   accessToken: accessToken,
+    //   image: image,
+    //   type: 'image/jpg',
 
-      // };
-      const form = new FormData();
-      form.append("Files", {
-        accessToken: accessToken,
-        name: "SampleFile.jpg", // Whatever your filename is
-        uri: image, //  file:///data/user/0/com.cookingrn/cache/rn_image_picker_lib_temp_5f6898ee-a8d4-48c9-b265-142efb11ec3f.jpg
-        type: "image/jpg", // video/mp4 for videos..or image/png etc...
-      });
-      console.log("here")
-      
-      fetch("http://172.19.14.252:3000/upload-profile", {
-        method: "POST",
-        headers: {
+    // };
+    const form = new FormData();
+    form.append("Files", {
+      name: "SampleFile.jpg", // Whatever your filename is
+      uri: image, //  file:///data/user/0/com.cookingrn/cache/rn_image_picker_lib_temp_5f6898ee-a8d4-48c9-b265-142efb11ec3f.jpg
+      type: "image/jpg", // video/mp4 for videos..or image/png etc...
+    });
+    // var details = {
+    //   accessToken: accessToken,
+    //   name: "SampleFile.jpg", // Whatever your filename is
+    //   uri: image, //  file:///data/user/0/com.cookingrn/cache/rn_image_picker_lib_temp_5f6898ee-a8d4-48c9-b265-142efb11ec3f.jpg
+    //   type: "image/jpg", // video/mp4 for videos..or image/png etc...
+    // }
+    // var formBody = [];
+    // for (var property in details) {
+    //   var encodedKey = encodeURIComponent(property);
+    //   var encodedValue = encodeURIComponent(details[property]);
+    //   formBody.push(encodedKey + "=" + encodedValue);
+    // }
+    // formBody = formBody.join("&");
+    fetch("http://172.21.80.1:3000/uploadProfile", {
+      method: "POST",
+      headers: {
         'Accept': 'application/json',
         'Content-Type': 'multipart/form-data',
-        Authorization: accessToken
-        },
-        body : form
-      })
-        .then((response) => response.json())
-        .then((responseJson) => {
-          console.log(responseJson)
-        });
-}
- handleSubmit();
-    return (
-      <SafeAreaView style={ProfileStyles.container}>
+      },
+      body: form
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log(responseJson)
+      });
+  }
+  handleSubmit();
+  return (
+    <SafeAreaView style={ProfileStyles.container}>
 
       <View style={ProfileStyles.userInfoSection}>
-        <View style={{flexDirection: 'row', marginTop: 15}}>
-      <TouchableOpacity onPress={() =>pickImage() }>
-          <Avatar.Image 
-           source={{uri:image}}
-            size={80}
-          />
-        </TouchableOpacity>
-          <View style={{marginLeft: 20}}>
-          
+        <View style={{ flexDirection: 'row', marginTop: 15 }}>
+          <TouchableOpacity onPress={() => pickImage()}>
+            <Avatar.Image
+              source={{ uri: image }}
+              size={80}
+            />
+          </TouchableOpacity>
+          <View style={{ marginLeft: 20 }}>
+
             <Title style={[ProfileStyles.title, {
-              marginTop:15,
+              marginTop: 15,
               marginBottom: 5,
             }]}>{Name}</Title>
             <Caption style={ProfileStyles.caption}>{username}</Caption>
-          </View> 
+          </View>
         </View>
       </View>
 
       <View style={ProfileStyles.userInfoSection}>
         <View style={ProfileStyles.row}>
-          <Icon name="map-marker-radius" color="#777777" size={20}/>
-          <Text style={{color:"#777777", marginLeft: 20}}>Chennai, India</Text>
+          <Icon name="map-marker-radius" color="#777777" size={20} />
+          <Text style={{ color: "#777777", marginLeft: 20 }}>Chennai, India</Text>
         </View>
         <View style={ProfileStyles.row}>
-          <Icon name="phone" color="#777777" size={20}/>
-          <Text style={{color:"#777777", marginLeft: 20}}>+91-900000009</Text>
+          <Icon name="phone" color="#777777" size={20} />
+          <Text style={{ color: "#777777", marginLeft: 20 }}>+91-900000009</Text>
         </View>
         <View style={ProfileStyles.row}>
-          <Icon name="email" color="#777777" size={20}/>
-          <Text style={{color:"#777777", marginLeft: 20}}>{username}</Text>
+          <Icon name="email" color="#777777" size={20} />
+          <Text style={{ color: "#777777", marginLeft: 20 }}>{username}</Text>
         </View>
       </View>
       <View >
@@ -142,15 +151,15 @@ const ProfileScreen = ({navigation}) => {
 
         <TouchableRipple onPress={() => navigation.navigate("BookingHistory")}>
           <View style={ProfileStyles.menuItem}>
-            <Icon name="account-check-outline" color="#000" size={25}/>
+            <Icon name="account-check-outline" color="#000" size={25} />
             <Text style={ProfileStyles.menuItemText}>Booking History</Text>
           </View>
         </TouchableRipple>
-       
+
       </View>
     </SafeAreaView>
-      );
-    };
+  );
+};
 
 
 export default ProfileScreen;
