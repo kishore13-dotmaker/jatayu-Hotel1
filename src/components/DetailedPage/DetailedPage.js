@@ -33,10 +33,10 @@ const DetailedPage =  ({ navigation, route, props }) => {
   const fetchPaymentIntentClientSecret = async () => {
     var email = await SecureStore.getItemAsync("username")
     setEmail(email)
-    console.log(email)
+    // console.log(email)
     const response = await fetch(`${API_URL}/pay`, {
       method: "POST",
-      body: JSON.stringify({ email }),
+      body: JSON.stringify({ email, hotel_id,type: category,check_in:checkin}),
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
