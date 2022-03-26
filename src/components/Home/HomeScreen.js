@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import React, { useState } from "react";
+import React, { useState , useEffect} from "react";
 import {
   SafeAreaView,
   Text,
@@ -29,6 +29,8 @@ const { width } = Dimensions.get("screen");
 const Home = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(true);
   const [location, setLocation] = useState();
+  const [foundHotels, setFoundHotels] = useState();
+  const [isLoading, setLoading] = useState(true);
   const handleSubmit = async () => {
     var accessToken = await SecureStore.getItemAsync("accessToken");
     var details = {
@@ -41,7 +43,7 @@ const Home = ({ navigation }) => {
       formBody.push(encodedKey + "=" + encodedValue);
     }
     formBody = formBody.join("&");
-    fetch('http://192.168.116.77:3000/findUser', {
+    fetch('http://172.19.17.164:3000/findUser', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -61,21 +63,22 @@ const Home = ({ navigation }) => {
   //   return fetch('http://172.19.14.185:3000/findHotels')
   //     .then((response) => response.json())
   //     .then((json) => {
-  //       return json.movies;
+  //       return json.foundHotels;
   //     })
   //     .catch((error) => {
   //       console.error(error);
   //     });
   // };
-  var url = new URL('http://192.168.116.77:3000/findHotels'),
+  useEffect(() => {
+  var url = new URL('http://172.19.17.164:3000/findHotels'),
     params = { city: location }
   Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
   fetch(url).then((response) => response.json())
-    .then((json) => {
-      return json;
-      console.log(json);
-    })
-
+    .then((json) => setFoundHotels(json.foundHotels))
+    .catch((error) => alert(error)) // display errors
+    .finally(() => setLoading(false));
+}, []);
+   console.log(foundHotels);
   return (
 
     <SafeAreaView style={HomeStyles.safeArea}>
