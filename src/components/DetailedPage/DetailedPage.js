@@ -23,24 +23,18 @@ const DetailedPage =  ({ navigation, route, props }) => {
   const [guests, setGuests] = useState();
   const [roomCategory, setRoomCategory ] = useState('JavaScrpit')
   const item = route.params;
-  const API_URL = "http://172.19.14.252:3000";
+  const API_URL = "http://192.168.116.77:3000";
   // const [cardDetails, setCardDetails] = useState();
   const stripe = useStripe();
   const [email, setEmail] = useState();
-  const [price, setPrice] = useState();
   var hotel_id = "62323b951ab3cd1006950954";
   // const { confirmPayment, loading } = useConfirmPayment();
   
 
   const fetchPaymentIntentClientSecret = async () => {
     var email = await SecureStore.getItemAsync("username")
-    var price = await SecureStore.getItemAsync("price")
-    var hotel_id = await SecureStore.getItemAsync("hotel_id")
-    var checkInDate = await SecureStore.getItemAsync("checkInDate")
     setEmail(email)
-    setEmail(price)
-    setEmail(hotel_id)
-    setEmail(checkInDate)
+    console.log(email)
     const response = await fetch(`${API_URL}/pay`, {
       method: "POST",
       body: JSON.stringify({ email }),
@@ -49,7 +43,6 @@ const DetailedPage =  ({ navigation, route, props }) => {
         'Content-Type': 'application/json',
       },
     });
-
     const { clientSecret, error } = await response.json();
     return { clientSecret, error };
   };
@@ -57,13 +50,6 @@ const DetailedPage =  ({ navigation, route, props }) => {
   const handlePayPress = async () => {
     //1.Gather the customer's billing information (e.g., email)
     var accessToken = await SecureStore.getItemAsync("accessToken")
-    
-    const billingDetails = {
-      email: email,
-      price : price,
-      hotel_id: hotel_id,
-      checkInDate:checkInDate
-    };
     //2.Fetch the intent client secret from the backend
     try {
       const { clientSecret, error } = await fetchPaymentIntentClientSecret();
@@ -241,6 +227,12 @@ const DetailedPage =  ({ navigation, route, props }) => {
                 <Picker.Item label="Luxury" value="luxury" />
               </Picker>
             </View>
+            <Pressable
+              style={[DetailsStyles.button, DetailsStyles.buttonClose]}
+              onPress={() => handlePayPress()}
+            >
+              <Text style={DetailsStyles.textStyle}>Confirm Booking</Text>
+            </Pressable>
             <StripeProvider publishableKey="pk_test_51KFMKpSFhRwTxyXZDMXbRgR1LeBYbfdyZzuqldHxyFpZz3WYamRyYZ9428b0P8sXpk7zP3QMWJrwcO07dJ5HStGL00FHZ5gd72">
         {/* <StripeProvider
           publishableKey="pk_test_51KFMKpSFhRwTxyXZDMXbRgR1LeBYbfdyZzuqldHxyFpZz3WYamRyYZ9428b0P8sXpk7zP3QMWJrwcO07dJ5HStGL00FHZ5gd72"
@@ -250,12 +242,7 @@ const DetailedPage =  ({ navigation, route, props }) => {
 
         {/* </StripeProvider> */}
 
-            <Pressable
-              style={[DetailsStyles.button, DetailsStyles.buttonClose]}
-              onPress={() => handlePayPress()}
-            >
-              <Text style={DetailsStyles.textStyle}>Confirm Booking</Text>
-            </Pressable>
+            
             <Pressable
               style={[DetailsStyles.button, DetailsStyles.buttonClose]}
               onPress={() => setModalVisible(!modalVisible)}

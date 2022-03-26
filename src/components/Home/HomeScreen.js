@@ -41,7 +41,7 @@ const Home = ({ navigation }) => {
       formBody.push(encodedKey + "=" + encodedValue);
     }
     formBody = formBody.join("&");
-    fetch('http://172.19.14.185:3000/findUser', {
+    fetch('http://192.168.116.77:3000/findUser', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -67,7 +67,7 @@ const Home = ({ navigation }) => {
   //       console.error(error);
   //     });
   // };
-  var url = new URL('http://172.19.14.185:3000/findHotels'),
+  var url = new URL('http://192.168.116.77:3000/findHotels'),
     params = { city: location }
   Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
   fetch(url).then((response) => response.json())
