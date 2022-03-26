@@ -142,29 +142,6 @@ const Home = ({ navigation }) => {
 
       <SearchBar />
       <Categories />
-      {isLoading ? (
-        <ActivityIndicator />
-      ) : (
-        <View>
-          {/* Title from URL */}
-          <Text style={styles.title}>{title}</Text>
-          {/* Display each movie */}
-          <View style={{ borderBottomWidth: 1, marginBottom: 12 }}></View>
-          <FlatList
-            data={data}
-            keyExtractor={({ id }, index) => id}
-            renderItem={({ item }) => (
-              <View style={{ paddingBottom: 10 }}>
-                <Text style={styles.movieText}>
-                  {item.id}. {item.title}, {item.releaseYear}
-                </Text>
-              </View>
-            )}
-          />
-          {/* Show the description */}
-          <Text style={styles.description}>{description}</Text>
-        </View>
-      )}
 
       <FlatList
         snapToInterval={width - 20}
