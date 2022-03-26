@@ -27,14 +27,20 @@ const DetailedPage =  ({ navigation, route, props }) => {
   // const [cardDetails, setCardDetails] = useState();
   const stripe = useStripe();
   const [email, setEmail] = useState();
+  const [price, setPrice] = useState();
   var hotel_id = "62323b951ab3cd1006950954";
   // const { confirmPayment, loading } = useConfirmPayment();
   
 
   const fetchPaymentIntentClientSecret = async () => {
     var email = await SecureStore.getItemAsync("username")
-  
+    var price = await SecureStore.getItemAsync("price")
+    var hotel_id = await SecureStore.getItemAsync("hotel_id")
+    var checkInDate = await SecureStore.getItemAsync("checkInDate")
     setEmail(email)
+    setEmail(price)
+    setEmail(hotel_id)
+    setEmail(checkInDate)
     const response = await fetch(`${API_URL}/pay`, {
       method: "POST",
       body: JSON.stringify({ email }),
@@ -54,6 +60,9 @@ const DetailedPage =  ({ navigation, route, props }) => {
     
     const billingDetails = {
       email: email,
+      price : price,
+      hotel_id: hotel_id,
+      checkInDate:checkInDate
     };
     //2.Fetch the intent client secret from the backend
     try {
