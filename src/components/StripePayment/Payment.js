@@ -15,9 +15,10 @@ const PaymentScreen = async ({ navigation, props }) => {
   var guests =  await SecureStore.getItemAsync("guests")
   var roomCategory =  await SecureStore.getItemAsync("roomCategory")
   var accessToken =  await SecureStore.getItemAsync("accessToken")
-  const API_URL = "http://172.19.14.252:3000";
+  const API_URL = "http://172.19.17.164:3000";
 
   const [email, setEmail] = useState();
+  console.log(email);
   // const [cardDetails, setCardDetails] = useState();
   const stripe = useStripe();
   // const { confirmPayment, loading } = useConfirmPayment();

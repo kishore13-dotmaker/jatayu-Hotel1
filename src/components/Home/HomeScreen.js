@@ -41,7 +41,7 @@ const Home = ({ navigation }) => {
       formBody.push(encodedKey + "=" + encodedValue);
     }
     formBody = formBody.join("&");
-    fetch('http://172.19.14.185:3000/findUser', {
+    fetch('http://172.19.17.164:3000/findUser', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -113,12 +113,15 @@ const Home = ({ navigation }) => {
       />
       <View style={HomeStyles.header}>
         <View>
+      <Pressable 
+        onPress={() => setModalVisible(true)}>
           <Text style={{ color: Colors.greyHome }}>Location</Text>
           <Text
             style={{ color: Colors.black, fontSize: 20, fontWeight: "bold" }}
           >
             {location}
           </Text>
+           </Pressable>
         </View>
         <Pressable
           onPress={() => {
