@@ -23,7 +23,7 @@ const DetailedPage =  ({ navigation, route, props }) => {
   const [guests, setGuests] = useState();
   const [roomCategory, setRoomCategory ] = useState('JavaScrpit')
   const item = route.params;
-  const API_URL = "http://172.19.14.252:3000";
+  const API_URL = "http://172.19.17.164:3000";
   // const [cardDetails, setCardDetails] = useState();
   const stripe = useStripe();
   const [email, setEmail] = useState();
@@ -31,7 +31,6 @@ const DetailedPage =  ({ navigation, route, props }) => {
   var hotel_id = "62323b951ab3cd1006950954";
   // const { confirmPayment, loading } = useConfirmPayment();
   
-
   const fetchPaymentIntentClientSecret = async () => {
     var email = await SecureStore.getItemAsync("username")
     var price = await SecureStore.getItemAsync("price")
@@ -62,7 +61,7 @@ const DetailedPage =  ({ navigation, route, props }) => {
       email: email,
       price : price,
       hotel_id: hotel_id,
-      checkInDate:checkInDate
+      checkInDate:checkin
     };
     //2.Fetch the intent client secret from the backend
     try {
