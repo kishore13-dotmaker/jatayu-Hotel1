@@ -79,7 +79,7 @@ const ProfileScreen = ({ navigation }) => {
     //   formBody.push(encodedKey + "=" + encodedValue);
     // }
     // formBody = formBody.join("&");
-    fetch("http://172.19.17.164:3000/uploadProfile", {
+    fetch("http://192.168.1.3:3000/uploadProfile", {
       method: "POST",
       headers: {
         'Accept': 'application/json',

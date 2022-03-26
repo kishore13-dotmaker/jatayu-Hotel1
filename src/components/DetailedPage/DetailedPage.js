@@ -23,7 +23,7 @@ const DetailedPage =  ({ navigation, route, props }) => {
   const [guests, setGuests] = useState();
   const [roomCategory, setRoomCategory ] = useState('JavaScrpit')
   const item = route.params;
-  const API_URL = "http://172.19.17.164:3000";
+  const API_URL = "http://192.168.1.3:3000";
   // const [cardDetails, setCardDetails] = useState();
   const stripe = useStripe();
   const [email, setEmail] = useState();
