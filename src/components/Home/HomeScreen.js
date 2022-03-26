@@ -113,12 +113,15 @@ const Home = ({ navigation }) => {
       />
       <View style={HomeStyles.header}>
         <View>
+      <Pressable 
+        onPress={() => setModalVisible(true)}>
           <Text style={{ color: Colors.greyHome }}>Location</Text>
           <Text
             style={{ color: Colors.black, fontSize: 20, fontWeight: "bold" }}
           >
             {location}
           </Text>
+           </Pressable>
         </View>
         <Pressable
           onPress={() => {

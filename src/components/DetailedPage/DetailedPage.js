@@ -30,7 +30,6 @@ const DetailedPage =  ({ navigation, route, props }) => {
   var hotel_id = "62323b951ab3cd1006950954";
   // const { confirmPayment, loading } = useConfirmPayment();
   
-
   const fetchPaymentIntentClientSecret = async () => {
     var email = await SecureStore.getItemAsync("username")
     setEmail(email)
@@ -50,6 +49,13 @@ const DetailedPage =  ({ navigation, route, props }) => {
   const handlePayPress = async () => {
     //1.Gather the customer's billing information (e.g., email)
     var accessToken = await SecureStore.getItemAsync("accessToken")
+    
+    const billingDetails = {
+      email: email,
+      price : price,
+      hotel_id: hotel_id,
+      checkInDate:checkin
+    };
     //2.Fetch the intent client secret from the backend
     try {
       const { clientSecret, error } = await fetchPaymentIntentClientSecret();
