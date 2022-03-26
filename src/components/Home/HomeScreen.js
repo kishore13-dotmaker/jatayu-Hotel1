@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import React from "react";
+import React, { useState } from "react";
 import {
   SafeAreaView,
   Text,
@@ -7,6 +7,8 @@ import {
   Image,
   Pressable,
   Dimensions,
+  Modal,
+  TextInput
 } from "react-native";
 import {
   FlatList,
@@ -25,6 +27,8 @@ import * as SecureStore from "expo-secure-store";
 const { width } = Dimensions.get("screen");
 
 const Home = ({ navigation }) => {
+  const [modalVisible, setModalVisible] = useState(true);
+  const [location, setLocation] = useState();
   const handleSubmit = async () => {
     var accessToken = await SecureStore.getItemAsync("accessToken");
     var details = {
@@ -45,16 +49,63 @@ const Home = ({ navigation }) => {
       },
       body: formBody
     })
-    .then((response) => response.json())
-    .then(async(responseJson) =>{
-     (navigation.navigate("Profile"))
-     await SecureStore.setItemAsync('username',responseJson.user.username)
-     await SecureStore.setItemAsync('name',responseJson.user.firstName)
-})
+      .then((response) => response.json())
+      .then(async (responseJson) => {
+        (navigation.navigate("Profile"))
+        await SecureStore.setItemAsync('username', responseJson.user.username)
+        await SecureStore.setItemAsync('name', responseJson.user.firstName)
+      })
   }
+  // const getHotels = () => {
+  //   const encodedValue = encodeURIComponent(location);
+  //   return fetch('http://172.19.14.185:3000/findHotels')
+  //     .then((response) => response.json())
+  //     .then((json) => {
+  //       return json.movies;
+  //     })
+  //     .catch((error) => {
+  //       console.error(error);
+  //     });
+  // };
+  var url = new URL('http://172.19.14.185:3000/findHotels'),
+    params = { city: location }
+  Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
+  fetch(url).then((response) => response.json())
+    .then((json) => {
+      return json;
+      console.log(json);
+    })
 
   return (
+
     <SafeAreaView style={HomeStyles.safeArea}>
+      <View style={HomeStyles.centeredView}>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            setModalVisible(!modalVisible);
+          }}
+        >
+          <View style={HomeStyles.centeredView}>
+            <View style={HomeStyles.modalView}>
+              <TextInput
+                style={HomeStyles.input}
+                labelValue={location}
+                onChangeText={(location) => setLocation(location)}
+                placeholder="location"
+              />
+              <Pressable
+                style={[HomeStyles.button, HomeStyles.buttonClose]}
+                onPress={() => setModalVisible(!modalVisible)}
+              >
+                <Text style={HomeStyles.textStyle}>Confirm Locatoin</Text>
+              </Pressable>
+            </View>
+          </View>
+        </Modal>
+      </View>
       <StatusBar
         translucent={false}
         backgroundColor={Colors.white}
@@ -66,7 +117,7 @@ const Home = ({ navigation }) => {
           <Text
             style={{ color: Colors.black, fontSize: 20, fontWeight: "bold" }}
           >
-            Chennai
+            {location}
           </Text>
         </View>
         <Pressable
@@ -77,7 +128,7 @@ const Home = ({ navigation }) => {
           <Image
             source={require("../../assets/images/app_icon/profile.jpg")}
             style={HomeStyles.profileImage}
-           
+
           />
         </Pressable>
       </View>
