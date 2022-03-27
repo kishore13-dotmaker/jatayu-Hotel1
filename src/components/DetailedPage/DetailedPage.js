@@ -21,13 +21,13 @@ const DetailedPage =  ({ navigation, route, props }) => {
   const [checkin, setCheckin] = useState();
   const [checkout, setCheckout] = useState();
   const [guests, setGuests] = useState();
-  const [roomCategory, setRoomCategory ] = useState('JavaScrpit')
+  const [roomCategory, setRoomCategory ] = useState('single')
   const item = route.params;
   const API_URL = "http://192.168.1.3:3000";
   // const [cardDetails, setCardDetails] = useState();
   const stripe = useStripe();
   const [email, setEmail] = useState();
-  var hotel_id = "62323b951ab3cd1006950954";
+  var hotel_id = "623f76f44bd7cb06c16c3962";
   // const { confirmPayment, loading } = useConfirmPayment();
   
   const fetchPaymentIntentClientSecret = async () => {
@@ -36,7 +36,7 @@ const DetailedPage =  ({ navigation, route, props }) => {
     // console.log(email)
     const response = await fetch(`${API_URL}/pay`, {
       method: "POST",
-      body: JSON.stringify({ email, hotel_id,type: category,check_in:checkin}),
+      body: JSON.stringify({ email, hotel_id,type: roomCategory,check_in:checkin}),
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
