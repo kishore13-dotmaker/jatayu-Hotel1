@@ -23,7 +23,7 @@ const DetailedPage =  ({ navigation, route, props }) => {
   const [guests, setGuests] = useState();
   const [roomCategory, setRoomCategory ] = useState('single')
   const item = route.params;
-  const API_URL = "http://192.168.1.3:3000";
+  const API_URL = "http://172.19.17.164:3000";
   // const [cardDetails, setCardDetails] = useState();
   const stripe = useStripe();
   const [email, setEmail] = useState();
@@ -148,10 +148,10 @@ const DetailedPage =  ({ navigation, route, props }) => {
         </View>
         <View style={DetailsStyles.DetailsContainer}>
           <View style={DetailsStyles.title}>
-            <Text style={DetailsStyles.titleText}>{item.title}</Text>
+            <Text style={DetailsStyles.titleText}>{item.hotelName}</Text>
           </View>
-          <Text style={DetailsStyles.locationText}>{item.location}</Text>
-          <Text style={DetailsStyles.detailsText}>{item.details}</Text>
+          <Text style={DetailsStyles.locationText}>{item.city}</Text>
+          <Text style={DetailsStyles.detailsText}>{item.description}</Text>
           <FlatList
             snapToInterval={width - 20}
             keyExtractor={(_, key) => key.toString()}

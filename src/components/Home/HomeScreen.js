@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import React, { useState , useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import {
   SafeAreaView,
   Text,
@@ -29,9 +29,10 @@ const { width } = Dimensions.get("screen");
 
 const Home = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(true);
-  const [location, setLocation] = useState();
+  const [location, setLocation] = useState("chennai");
   const [foundHotels, setFoundHotels] = useState();
   const [isLoading, setLoading] = useState(true);
+
   const handleSubmit = async () => {
     var accessToken = await SecureStore.getItemAsync("accessToken");
     var details = {
@@ -44,21 +45,21 @@ const Home = ({ navigation }) => {
       formBody.push(encodedKey + "=" + encodedValue);
     }
     formBody = formBody.join("&");
-    fetch('http://192.168.1.3:3000/findUser', {
-      method: 'POST',
+    fetch("http://172.19.17.164:3000/findUser", {
+      method: "POST",
       headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+        Accept: "application/json",
+        "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
       },
-      body: formBody
+      body: formBody,
     })
       .then((response) => response.json())
       .then(async (responseJson) => {
-        (navigation.navigate("Profile"))
-        await SecureStore.setItemAsync('username', responseJson.user.username)
-        await SecureStore.setItemAsync('name', responseJson.user.firstName)
-      })
-  }
+        navigation.navigate("Profile");
+        await SecureStore.setItemAsync("username", responseJson.user.username);
+        await SecureStore.setItemAsync("name", responseJson.user.firstName);
+      });
+  };
   // const getHotels = () => {
   //   const encodedValue = encodeURIComponent(location);
   //   return fetch('http://172.19.14.185:3000/findHotels')
@@ -70,18 +71,29 @@ const Home = ({ navigation }) => {
   //       console.error(error);
   //     });
   // };
-  useEffect(() => {
-  var url = new URL('http://192.168.1.3:3000/findHotels'),
-    params = { city: location }
-  Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
-  fetch(url).then((response) => response.json())
-    .then((json) => setFoundHotels(json.foundHotels))
-    .catch((error) => alert(error)) // display errors
-    .finally(() => setLoading(false));
-}, []);
-   console.log(foundHotels);
-  return (
+  // const details = async(item)=>{
+  //   await SecureStore.setItemAsync("hotel_id",item._id);
+  //   navigation.navigate("DetailedPage", item)
 
+  // }
+  useEffect(() => {
+    var url = new URL("http://172.19.17.164:3000/findHotels"),
+      params = { city: location };
+    Object.keys(params).forEach((key) =>
+      url.searchParams.append(key, params[key])
+    );
+    fetch(url)
+      .then((response) => response.json())
+      .then(async (json) => {
+        setFoundHotels(json.foundHotels);
+        // await SecureStore.setItemAsync("hotel_id", JSON.stringify(json.foundHotels._id));
+        // console.log("hotel_id");
+      })
+      .catch((error) => console.log(error)) // display errors
+      .finally(() => setLoading(false));
+  }, []);
+  console.log(foundHotels);
+  return (
     <SafeAreaView style={HomeStyles.safeArea}>
       <View style={HomeStyles.centeredView}>
         <Modal
@@ -117,15 +129,14 @@ const Home = ({ navigation }) => {
       />
       <View style={HomeStyles.header}>
         <View>
-      <Pressable 
-        onPress={() => setModalVisible(true)}>
-          <Text style={{ color: Colors.greyHome }}>Location</Text>
-          <Text
-            style={{ color: Colors.black, fontSize: 20, fontWeight: "bold" }}
-          >
-            {location}
-          </Text>
-           </Pressable>
+          <Pressable onPress={() => setModalVisible(true)}>
+            <Text style={{ color: Colors.greyHome }}>Location</Text>
+            <Text
+              style={{ color: Colors.black, fontSize: 20, fontWeight: "bold" }}
+            >
+              {location}
+            </Text>
+          </Pressable>
         </View>
         <Pressable
           onPress={() => {
@@ -135,7 +146,6 @@ const Home = ({ navigation }) => {
           <Image
             source={require("../../assets/images/app_icon/profile.jpg")}
             style={HomeStyles.profileImage}
-
           />
         </Pressable>
       </View>
@@ -148,10 +158,29 @@ const Home = ({ navigation }) => {
         contentontainerStyle={HomeStyles.contentontainerStyle}
         showsHorizontalScrollIndicator={false}
         vertical={true}
-        data={shops}
+        data={foundHotels}
+        keyExtractor={( item , index) => {return item._id}}
         renderItem={({ item }) => (
           <Pressable onPress={() => navigation.navigate("DetailedPage", item)}>
             <Card item={item} />
+            {/* {isLoading ? (
+      <ActivityIndicator />
+    ) : (
+  <View>
+    <Text>{foundHotels.hotelName}</Text>
+  <FlatList
+          data={foundHotels}
+          keyExtractor={({ id }, index) => id}
+          renderItem={({item}) => (
+            <View>
+              <Text>
+                {item._id}. {item.username}, {item.city}
+              </Text>
+            </View>
+          )}
+        />
+    </View>
+    )} */}
           </Pressable>
         )}
       />
