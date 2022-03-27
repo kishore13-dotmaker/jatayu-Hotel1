@@ -6,22 +6,22 @@ import Colors from '../../assets/colors/colors';
 import { ScrollView, TextInput } from 'react-native-gesture-handler';
 
 
-export default function Cards(shops){
+export default function Cards(foundHotels){
 
  
     return(
     
       <View style={ShopCardsStyle.card}>
-          <Image source={shops.item.img} style={ShopCardsStyle.cardImage}/>
+          {/* <Image source={shops.item.img} style={ShopCardsStyle.cardImage}/> */}
           <View style={ShopCardsStyle.CardTextView}> 
-          <Text style={ShopCardsStyle.CardTextTitle}> {shops.item.title} </Text>
+          <Text style={ShopCardsStyle.CardTextTitle}> {foundHotels.item.hotelName} </Text>
           <View style={{flexDirection :'row'}}>
 
-          <Text style={ShopCardsStyle.CardTextRating}> {shops.item.rating} </Text>
+          <Text style={ShopCardsStyle.CardTextRating}> {foundHotels.item.star_rating} </Text>
           <FontAwesome name='star' size={20} color= {Colors.blueHome}/>
           </View>
           </View>
-          <Text style={ShopCardsStyle.CardTextLocation}>{shops.item.location}</Text>
+          <Text style={ShopCardsStyle.CardTextLocation}>{foundHotels.item.city}</Text>
       </View>
         
     )   
