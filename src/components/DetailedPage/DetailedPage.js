@@ -27,8 +27,12 @@ const DetailedPage =  ({ navigation, route, props }) => {
   // const [cardDetails, setCardDetails] = useState();
   const stripe = useStripe();
   const [email, setEmail] = useState();
+<<<<<<< HEAD
   const [hotel_id, setHotel_id] = useState();
   // var hotel_id = "62323b951ab3cd1006950954";
+=======
+  var hotel_id = "623f76f44bd7cb06c16c3962";
+>>>>>>> e78f8ea2deabbaf32853c146f46c58588d32c81e
   // const { confirmPayment, loading } = useConfirmPayment();
   
   const fetchPaymentIntentClientSecret = async () => {
