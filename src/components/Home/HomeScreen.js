@@ -77,7 +77,7 @@ const Home = ({ navigation }) => {
 
   // }
   useEffect(() => {
-    var url = new URL("http://172.19.17.164:3000/findHotels"),
+    var url = new URL("http://192.168.106.77:3000/findHotels"),
       params = { city: location };
     Object.keys(params).forEach((key) =>
       url.searchParams.append(key, params[key])
@@ -151,7 +151,7 @@ const Home = ({ navigation }) => {
       </View>
 
       <SearchBar />
-      <Categories />
+      {/* <Categories /> */}
 
       <FlatList
         snapToInterval={width - 20}

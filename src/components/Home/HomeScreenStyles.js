@@ -19,13 +19,15 @@ const HomeStyles = StyleSheet.create({
     },
     contentontainerStyle:{
         paddingLeft: 20,
+       
         // paddingVertical: 20
     },
     centeredView: {
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
-        marginTop: 22
+        marginTop: 22,
+        
       },
       modalView: {
         margin: 20,
@@ -33,7 +35,7 @@ const HomeStyles = StyleSheet.create({
         borderRadius: 20,
         padding: 35,
         alignItems: "center",
-        shadowColor: "#000",
+        shadowColor: "#FFFFFF",
         shadowOffset: {
           width: 0,
           height: 2

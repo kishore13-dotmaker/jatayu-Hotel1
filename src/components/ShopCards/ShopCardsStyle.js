@@ -7,7 +7,7 @@ const {width} = Dimensions.get('screen')
 const ShopCardsStyle = StyleSheet.create({
     card:{
         height: 250,
-        backgroundColor: Colors.white,
+        backgroundColor: "#f0f8ff",
         elevation: 10,
         width: width-40,
         marginRight: 20,
@@ -15,7 +15,8 @@ const ShopCardsStyle = StyleSheet.create({
         marginBottom: 10,
         marginTop: 10,
         padding: 15,
-        borderRadius: 20
+        borderRadius: 20,
+        
 
     },
     cardImage:{

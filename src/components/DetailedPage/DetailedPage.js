@@ -21,9 +21,9 @@ const DetailedPage =  ({ navigation, route, props }) => {
   const [checkin, setCheckin] = useState();
   const [checkout, setCheckout] = useState();
   const [guests, setGuests] = useState();
-  const [roomCategory, setRoomCategory ] = useState('single')
+  const [roomCategory, setRoomCategory ] = useState('superDeluxe')
   const item = route.params;
-  const API_URL = "http://172.19.17.164:3000";
+  const API_URL = "http://192.168.106.77:3000";
   // const [cardDetails, setCardDetails] = useState();
   const stripe = useStripe();
   const [email, setEmail] = useState();
@@ -36,6 +36,7 @@ const DetailedPage =  ({ navigation, route, props }) => {
    
     setEmail(email)
     var hotel_id = await SecureStore.getItemAsync("hotel_id")
+    console.log(hotel_id)
     setHotel_id(hotel_id)
     // console.log(email)
     const response = await fetch(`${API_URL}/pay`, {

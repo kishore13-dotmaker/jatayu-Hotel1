@@ -93,6 +93,7 @@ const DetailsStyles = StyleSheet.create({
     marginTop: 22
   },
   modalView: {
+    //flex:1,
     margin: 20,
     backgroundColor: "white",
     borderRadius: 20,
@@ -111,7 +112,8 @@ const DetailsStyles = StyleSheet.create({
     borderRadius: 20,
     padding: 10,
     elevation: 2,
-    marginTop: 10,
+    marginTop: 20,
+    
   },
   buttonOpen: {
     backgroundColor: "#F194FF",
@@ -138,13 +140,15 @@ const DetailsStyles = StyleSheet.create({
     padding: 10,
   },
   container: {
+      paddingBottom :100,
       alignItems: 'center'
     },
     picker: {
       width: 300,
       height: 45,
       borderColor: 'blue',
-      // borderwidth: 1
+      //borderwidth: 1
+      
     },
 });
 
