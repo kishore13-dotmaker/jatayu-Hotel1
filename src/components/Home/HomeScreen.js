@@ -92,7 +92,7 @@ const Home = ({ navigation }) => {
       .catch((error) => console.log(error)) // display errors
       .finally(() => setLoading(false));
   }, []);
-  console.log(foundHotels);
+  // console.log(foundHotels);
   return (
     <SafeAreaView style={HomeStyles.safeArea}>
       <View style={HomeStyles.centeredView}>
@@ -161,7 +161,8 @@ const Home = ({ navigation }) => {
         data={foundHotels}
         keyExtractor={( item , index) => {return item._id}}
         renderItem={({ item }) => (
-          <Pressable onPress={() => navigation.navigate("DetailedPage", item)}>
+          <Pressable onPress={async() =>{ await SecureStore.setItemAsync("hotel_id", item._id)
+           navigation.navigate("DetailedPage", item)}}>
             <Card item={item} />
             {/* {isLoading ? (
       <ActivityIndicator />

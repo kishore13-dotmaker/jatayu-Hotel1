@@ -27,16 +27,20 @@ const DetailedPage =  ({ navigation, route, props }) => {
   // const [cardDetails, setCardDetails] = useState();
   const stripe = useStripe();
   const [email, setEmail] = useState();
-  var hotel_id = "62323b951ab3cd1006950954";
+  const [hotel_id, setHotel_id] = useState();
+  // var hotel_id = "62323b951ab3cd1006950954";
   // const { confirmPayment, loading } = useConfirmPayment();
   
   const fetchPaymentIntentClientSecret = async () => {
     var email = await SecureStore.getItemAsync("username")
+   
     setEmail(email)
+    var hotel_id = await SecureStore.getItemAsync("hotel_id")
+    setHotel_id(hotel_id)
     // console.log(email)
     const response = await fetch(`${API_URL}/pay`, {
       method: "POST",
-      body: JSON.stringify({ email, hotel_id,type: category,check_in:checkin}),
+      body: JSON.stringify({ email, hotel_id,type: roomCategory,check_in:checkin}),
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
@@ -49,6 +53,7 @@ const DetailedPage =  ({ navigation, route, props }) => {
   const handlePayPress = async () => {
     //1.Gather the customer's billing information (e.g., email)
     var accessToken = await SecureStore.getItemAsync("accessToken")
+    
     
     const billingDetails = {
       email: email,

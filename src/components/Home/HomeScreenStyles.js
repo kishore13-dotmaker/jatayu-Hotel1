@@ -61,7 +61,18 @@ const HomeStyles = StyleSheet.create({
       modalText: {
         marginBottom: 15,
         textAlign: "center"
-      }
+      },
+      textStyle: {
+        color: "white",
+        fontWeight: "bold",
+        textAlign: "center"
+      },
+      input: {
+        height: 40,
+        margin: 12,
+        borderWidth: 1,
+        padding: 10,
+      },
 })
 
 export default HomeStyles;
