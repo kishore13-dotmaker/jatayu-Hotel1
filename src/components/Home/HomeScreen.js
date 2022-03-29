@@ -45,7 +45,7 @@ const Home = ({ navigation }) => {
       formBody.push(encodedKey + "=" + encodedValue);
     }
     formBody = formBody.join("&");
-    fetch("http://172.19.17.164:3000/findUser", {
+    fetch("http://172.17.204.83:3000/findUser", {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -77,7 +77,7 @@ const Home = ({ navigation }) => {
 
   // }
   useEffect(() => {
-    var url = new URL("http://192.168.106.77:3000/findHotels"),
+    var url = new URL("http://172.17.204.83:3000/findHotels"),
       params = { city: location };
     Object.keys(params).forEach((key) =>
       url.searchParams.append(key, params[key])
