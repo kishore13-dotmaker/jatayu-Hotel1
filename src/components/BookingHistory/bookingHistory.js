@@ -20,7 +20,7 @@ const BookingHistory = (navigation) => {
 
  useEffect(async() => {
   var accessToken = await SecureStore.getItemAsync('accessToken');
-  console.log(accessToken);
+  // console.log(accessToken);
   var details = {
     accessToken: accessToken,
   }
@@ -42,7 +42,7 @@ const BookingHistory = (navigation) => {
   .then((response) => response.json())
   .then( async (response) =>{
     try {
-      console.log(response)
+      // console.log(response)
       setBookingHistory(response.foundBookings)
     } catch (e) {
       console.log(e)
@@ -51,7 +51,7 @@ const BookingHistory = (navigation) => {
     console.error(error);
   });
 }, []);
-console.log(bookingHistory);
+// console.log(bookingHistory);
 return(
   <FlatList
   snapToInterval={width - 20}
