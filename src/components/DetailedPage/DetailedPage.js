@@ -16,7 +16,7 @@ import { StatusBar } from "expo-status-bar";
 import Colors from "../../assets/colors/colors";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
-import PhoneImage from "./PhoneImage";
+import HotelImage from "./HotelImage";
 import FormButton from "../Buttons/FormButton";
 import { Picker } from "@react-native-picker/picker";
 import { StripeProvider } from "@stripe/stripe-react-native";
@@ -201,6 +201,7 @@ const DetailedPage = ({ navigation, route, props }) => {
           </View>
           <Text style={DetailsStyles.locationText}>{item.city}</Text>
           <Text style={DetailsStyles.detailsText}>{item.description}</Text>
+
           <FlatList
             snapToInterval={width - 20}
             keyExtractor={(_, key) => key.toString()}
@@ -208,11 +209,11 @@ const DetailedPage = ({ navigation, route, props }) => {
             horizontal
             showsHorizontalScrollIndicator={true}
             data={item.phoneImage}
-            renderItem={({ item }) => <PhoneImage image={item} />}
+            renderItem={({ item }) => <HotelImage image={item} />}
           />
           <View style={DetailsStyles.footer}>
             <View style={{ flexDirection: "row" }}>
-              <Text style={DetailsStyles.footerText}>{item.rating}</Text>
+              <Text style={DetailsStyles.footerText}>{item.star_rating}</Text>
               <FontAwesome
                 name="star"
                 size={21}
