@@ -172,7 +172,7 @@ const DetailedPage = ({ navigation, route, props }) => {
         <View style={DetailsStyles.ImageContainer}>
           <ImageBackground
             style={DetailsStyles.ImageBackground}
-            source={item.img}
+            source={{uri:item.image}}
           >
             <View style={DetailsStyles.header}>
               <TouchableOpacity onPress={navigation.goBack}>
