@@ -46,7 +46,7 @@ const SignUpScreen = ({navigation}) => {
       formBody.push(encodedKey + "=" + encodedValue);
     }
     formBody = formBody.join("&");
-    fetch('http://192.168.1.6:3000/registerCustomer', {
+    fetch('http://3.89.108.233:3000/registerCustomer', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',

@@ -45,7 +45,7 @@ const Home = ({ navigation }) => {
       formBody.push(encodedKey + "=" + encodedValue);
     }
     formBody = formBody.join("&");
-    fetch("http://172.17.204.83:3000/findUser", {
+    fetch("http://3.89.108.233:3000/findUser", {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -62,7 +62,7 @@ const Home = ({ navigation }) => {
   };
 
     const handleConfirmLocation = function() {
-      var url = new URL("http://172.17.205.168:3000/findHotels"),
+      var url = new URL("http://3.89.108.233:3000/findHotels"),
       params = { city: location };
     Object.keys(params).forEach((key) =>
       url.searchParams.append(key, params[key])
