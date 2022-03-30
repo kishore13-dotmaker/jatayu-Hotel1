@@ -286,7 +286,7 @@ const DetailedPage = ({ navigation, route, props }) => {
                     <Picker.Item label="Luxury" value="luxury" />
                   </Picker>
                 </View>
-                <Text>Total Price:{roomPrice}</Text>
+                <Text style={DetailsStyles.price}>Total Price:{roomPrice}</Text>
                 <Pressable
                   style={[DetailsStyles.button, DetailsStyles.buttonClose]}
                   onPress={() => getPrice()}

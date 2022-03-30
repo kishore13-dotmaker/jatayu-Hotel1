@@ -124,7 +124,8 @@ const DetailsStyles = StyleSheet.create({
   textStyle: {
     color: "white",
     fontWeight: "bold",
-    textAlign: "center"
+    textAlign: "center",
+    
   },
   modalText: {
     marginBottom: 15,
@@ -149,6 +150,12 @@ const DetailsStyles = StyleSheet.create({
       borderColor: 'blue',
       //borderwidth: 1
       
+    },
+    price:{
+      color: "white",
+      fontWeight: "bold",
+      textAlign: "center",
+      paddingTop:40  
     },
 });
 

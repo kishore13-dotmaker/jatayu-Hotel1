@@ -29,7 +29,7 @@ const { width } = Dimensions.get("screen");
 
 const Home = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(true);
-  const [location, setLocation] = useState();
+  const [location, setLocation] = useState("chennai");
   const [foundHotels, setFoundHotels] = useState();
   const [isLoading, setLoading] = useState(true);
 
