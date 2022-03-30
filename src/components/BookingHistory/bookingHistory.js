@@ -35,7 +35,7 @@ export default class App extends Component {
 
     }
     formBody = formBody.join("&");
-    const postResponse = fetch("http://192.168.106.77:3000/bookingHistory", {
+    const postResponse = fetch("http://192.168.181.77:3000/bookingHistory", {
       method: "POST",
       headers: {
         Accept: "application/json",

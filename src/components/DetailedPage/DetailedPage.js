@@ -23,7 +23,7 @@ const DetailedPage =  ({ navigation, route, props }) => {
   const [guests, setGuests] = useState();
   const [roomCategory, setRoomCategory ] = useState('superDeluxe')
   const item = route.params;
-  const API_URL = "http://192.168.106.77:3000";
+  const API_URL = "http://192.168.181.77:3000";
   // const [cardDetails, setCardDetails] = useState();
   const stripe = useStripe();
   const [email, setEmail] = useState();
@@ -41,7 +41,7 @@ const DetailedPage =  ({ navigation, route, props }) => {
     // console.log(email)
     const response = await fetch(`${API_URL}/pay`, {
       method: "POST",
-      body: JSON.stringify({ email, hotel_id,type: roomCategory,check_in:checkin}),
+      body: JSON.stringify({ email, hotel_id,type: roomCategory,check_in:checkin,}),
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
