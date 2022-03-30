@@ -29,7 +29,7 @@ const { width } = Dimensions.get("screen");
 
 const Home = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(true);
-  const [location, setLocation] = useState("chennai");
+  const [location, setLocation] = useState();
   const [foundHotels, setFoundHotels] = useState();
   const [isLoading, setLoading] = useState(true);
 
@@ -60,24 +60,9 @@ const Home = ({ navigation }) => {
         await SecureStore.setItemAsync("name", responseJson.user.firstName);
       });
   };
-  // const getHotels = () => {
-  //   const encodedValue = encodeURIComponent(location);
-  //   return fetch('http://172.19.14.185:3000/findHotels')
-  //     .then((response) => response.json())
-  //     .then((json) => {
-  //       return json.foundHotels;
-  //     })
-  //     .catch((error) => {
-  //       console.error(error);
-  //     });
-  // };
-  // const details = async(item)=>{
-  //   await SecureStore.setItemAsync("hotel_id",item._id);
-  //   navigation.navigate("DetailedPage", item)
 
-  // }
-  useEffect(() => {
-    var url = new URL("http://192.168.181.77:3000/findHotels"),
+    const handleConfirmLocation = function() {
+      var url = new URL("http://172.17.205.168:3000/findHotels"),
       params = { city: location };
     Object.keys(params).forEach((key) =>
       url.searchParams.append(key, params[key])
@@ -86,13 +71,14 @@ const Home = ({ navigation }) => {
       .then((response) => response.json())
       .then(async (json) => {
         setFoundHotels(json.foundHotels);
-        // await SecureStore.setItemAsync("hotel_id", JSON.stringify(json.foundHotels._id));
-        // console.log("hotel_id");
+        
+       
       })
       .catch((error) => console.log(error)) // display errors
       .finally(() => setLoading(false));
-  }, []);
-  // console.log(foundHotels);
+    }
+    
+
   return (
     <SafeAreaView style={HomeStyles.safeArea}>
       <View style={HomeStyles.centeredView}>
@@ -114,7 +100,9 @@ const Home = ({ navigation }) => {
               />
               <Pressable
                 style={[HomeStyles.button, HomeStyles.buttonClose]}
-                onPress={() => setModalVisible(!modalVisible)}
+                onPress={() =>  {
+                  setModalVisible(!modalVisible) 
+                  handleConfirmLocation() }}
               >
                 <Text style={HomeStyles.textStyle}>Confirm Locatoin</Text>
               </Pressable>
@@ -164,24 +152,6 @@ const Home = ({ navigation }) => {
           <Pressable onPress={async() =>{ await SecureStore.setItemAsync("hotel_id", item._id)
            navigation.navigate("DetailedPage", item)}}>
             <Card item={item} />
-            {/* {isLoading ? (
-      <ActivityIndicator />
-    ) : (
-  <View>
-    <Text>{foundHotels.hotelName}</Text>
-  <FlatList
-          data={foundHotels}
-          keyExtractor={({ id }, index) => id}
-          renderItem={({item}) => (
-            <View>
-              <Text>
-                {item._id}. {item.username}, {item.city}
-              </Text>
-            </View>
-          )}
-        />
-    </View>
-    )} */}
           </Pressable>
         )}
       />
