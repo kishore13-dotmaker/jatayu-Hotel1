@@ -19,6 +19,7 @@ const ProfileScreen = ({ navigation }) => {
   const [Name, setName] = useState();
   const [image, setImage] = useState();
   const [accessToken, setAccessToken] = useState();
+  
   const pickImage = async () => {
     var accessToken = await SecureStore.getItemAsync("accessToken");
     // No permissions request is necessary for launching the image library

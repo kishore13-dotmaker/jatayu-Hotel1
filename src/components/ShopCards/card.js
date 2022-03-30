@@ -8,11 +8,11 @@ import { ScrollView, TextInput } from 'react-native-gesture-handler';
 
 export default function Cards(foundHotels){
 
- 
+  
     return(
     
       <View style={ShopCardsStyle.card}>
-          {/* <Image source={shops.item.img} style={ShopCardsStyle.cardImage}/> */}
+          <Image source={{uri:foundHotels.item.image}} style={ShopCardsStyle.cardImage}/>
           <View style={ShopCardsStyle.CardTextView}> 
           <Text style={ShopCardsStyle.CardTextTitle}> {foundHotels.item.hotelName} </Text>
           <View style={{flexDirection :'row'}}>
