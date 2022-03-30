@@ -32,7 +32,7 @@ const DetailedPage = ({ navigation, route, props }) => {
   const [guests, setGuests] = useState();
   const [roomCategory, setRoomCategory] = useState("superDeluxe");
   const item = route.params;
-  const API_URL = "http://172.17.204.83:3000";
+  const API_URL = "http://172.17.205.168:3000";
   // const [cardDetails, setCardDetails] = useState();
   const stripe = useStripe();
   const [email, setEmail] = useState();
@@ -148,7 +148,7 @@ const DetailedPage = ({ navigation, route, props }) => {
       formBody.push(encodedKey + "=" + encodedValue);
     }
     formBody = formBody.join("&");
-    fetch("http://172.17.204.83:3000/findprice", {
+    fetch("http://172.17.205.168:3000/findprice", {
       method: "POST",
       headers: {
         Accept: "application/json",
