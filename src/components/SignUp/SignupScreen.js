@@ -6,7 +6,7 @@ import DismissKeyboard from '../../utils/DismissKeyboard';
 import SignUpStyles from './SignUpStyles';
 // import { AuthContext } from '../../navigation/AuthProviders';
 import SocialButtons  from "../Buttons/SocialButtons";
-
+import {ip} from '../Home/IpAddress'
 
 
 
@@ -46,7 +46,7 @@ const SignUpScreen = ({navigation}) => {
       formBody.push(encodedKey + "=" + encodedValue);
     }
     formBody = formBody.join("&");
-    fetch('http://3.89.108.233:3000/registerCustomer', {
+    fetch(ip+'/registerCustomer', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',

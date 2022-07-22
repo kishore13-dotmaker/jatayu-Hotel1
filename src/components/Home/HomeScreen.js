@@ -1,5 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useState, useEffect } from "react";
+import {ip} from "./IpAddress"
 import {
   SafeAreaView,
   Text,
@@ -32,7 +33,7 @@ const Home = ({ navigation }) => {
   const [location, setLocation] = useState("chennai");
   const [foundHotels, setFoundHotels] = useState();
   const [isLoading, setLoading] = useState(true);
-
+  const [search, setSearch]= useState();
   const handleSubmit = async () => {
     var accessToken = await SecureStore.getItemAsync("accessToken");
     var details = {
@@ -45,7 +46,7 @@ const Home = ({ navigation }) => {
       formBody.push(encodedKey + "=" + encodedValue);
     }
     formBody = formBody.join("&");
-    fetch("http://3.89.108.233:3000/findUser", {
+    fetch(ip+"/findUser", {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -62,7 +63,7 @@ const Home = ({ navigation }) => {
   };
 
     const handleConfirmLocation = function() {
-      var url = new URL("http://3.89.108.233:3000/findHotels"),
+      var url = new URL(ip+"/findHotels"),
       params = { city: location };
     Object.keys(params).forEach((key) =>
       url.searchParams.append(key, params[key])
@@ -77,7 +78,9 @@ const Home = ({ navigation }) => {
       .catch((error) => console.log(error)) // display errors
       .finally(() => setLoading(false));
     }
-    
+    const handleSearch=async()=>{
+      
+    }
 
   return (
     <SafeAreaView style={HomeStyles.safeArea}>
@@ -138,7 +141,11 @@ const Home = ({ navigation }) => {
         </Pressable>
       </View>
 
-      <SearchBar />
+      <SearchBar 
+        labelValue={search}
+        onChangeText={(search)=>setSearch(search)}
+        placeholder="Search"
+      />
       {/* <Categories /> */}
 
       <FlatList

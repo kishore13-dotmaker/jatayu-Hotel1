@@ -32,7 +32,7 @@ const DetailedPage = ({ navigation, route, props }) => {
   const [guests, setGuests] = useState();
   const [roomCategory, setRoomCategory] = useState("superDeluxe");
   const item = route.params;
-  const API_URL = "http://3.89.108.233:3000";
+  const API_URL = "http://172.19.192.1:3000";
   // const [cardDetails, setCardDetails] = useState();
   const stripe = useStripe();
   const [email, setEmail] = useState();
@@ -87,6 +87,8 @@ const DetailedPage = ({ navigation, route, props }) => {
       } else {
         const initSheet = await stripe.initPaymentSheet({
           paymentIntentClientSecret: clientSecret,
+          googlePay: true,
+          merchantDisplayName: 'Merchant Name',
         });
         if (initSheet.error) return Alert.alert(initSheet.error.message);
         const presentSheet = await stripe.presentPaymentSheet({
@@ -148,7 +150,7 @@ const DetailedPage = ({ navigation, route, props }) => {
       formBody.push(encodedKey + "=" + encodedValue);
     }
     formBody = formBody.join("&");
-    fetch("http://3.89.108.233:3000/findprice", {
+    fetch("http://172.19.192.1:3000/findprice", {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -299,7 +301,7 @@ const DetailedPage = ({ navigation, route, props }) => {
                 >
                   <Text style={DetailsStyles.textStyle}>Confirm Booking</Text>
                 </Pressable>
-                <StripeProvider publishableKey="pk_test_51KFMKpSFhRwTxyXZDMXbRgR1LeBYbfdyZzuqldHxyFpZz3WYamRyYZ9428b0P8sXpk7zP3QMWJrwcO07dJ5HStGL00FHZ5gd72">
+                <StripeProvider publishableKey="pk_test_51LOKycSAHBKLERfHvIoXVb5S6tPtStzg09KD0Kv9Uvw7rqNYKfUXPaLrsyUgut8N7OftC4uPC3YFl7NpmsEK5xM900VVClZWd7">
                   {/* <StripeProvider
           publishableKey="pk_test_51KFMKpSFhRwTxyXZDMXbRgR1LeBYbfdyZzuqldHxyFpZz3WYamRyYZ9428b0P8sXpk7zP3QMWJrwcO07dJ5HStGL00FHZ5gd72"
           urlScheme="your-url-scheme" // required for 3D Secure and bank redirects
