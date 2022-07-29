@@ -25,7 +25,6 @@ import Categories from "../Categories/Categories";
 import Card from "../ShopCards/card";
 import shops from "../consts/shops";
 import * as SecureStore from "expo-secure-store";
-
 const { width } = Dimensions.get("screen");
 
 const Home = ({ navigation }) => {
@@ -64,7 +63,7 @@ const Home = ({ navigation }) => {
 
     const handleConfirmLocation = function() {
       var url = new URL(ip+"/findHotels"),
-      params = { city: location };
+      params = { city: location};
     Object.keys(params).forEach((key) =>
       url.searchParams.append(key, params[key])
     );
@@ -79,12 +78,26 @@ const Home = ({ navigation }) => {
       .finally(() => setLoading(false));
     }
     const handleSearch=async()=>{
-      
+      var url = new URL(ip+"/findHotels"),
+      params = { city: location,search: hotelName };
+    Object.keys(params).forEach((key) =>
+      url.searchParams.append(key, params[key])
+    );
+    fetch(url)
+      .then((response) => response.json())
+      .then(async (json) => {
+        setFoundHotels(json.foundHotels);
+        
+       
+      })
+      .catch((error) => console.log(error)) // display errors
+      .finally(() => setLoading(false));
+    
     }
-
-  return (
-    <SafeAreaView style={HomeStyles.safeArea}>
+    return (
+      <SafeAreaView style={HomeStyles.safeArea}>
       <View style={HomeStyles.centeredView}>
+          
         <Modal
           animationType="slide"
           transparent={true}
@@ -93,6 +106,7 @@ const Home = ({ navigation }) => {
             setModalVisible(!modalVisible);
           }}
         >
+        
           <View style={HomeStyles.centeredView}>
             <View style={HomeStyles.modalView}>
               <TextInput
@@ -112,7 +126,9 @@ const Home = ({ navigation }) => {
             </View>
           </View>
         </Modal>
+           
       </View>
+      
       <StatusBar
         translucent={false}
         backgroundColor={Colors.white}
@@ -141,11 +157,13 @@ const Home = ({ navigation }) => {
         </Pressable>
       </View>
 
+      <Pressable>
       <SearchBar 
         labelValue={search}
         onChangeText={(search)=>setSearch(search)}
         placeholder="Search"
       />
+      </Pressable>
       {/* <Categories /> */}
 
       <FlatList

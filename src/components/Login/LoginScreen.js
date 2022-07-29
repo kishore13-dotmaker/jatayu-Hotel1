@@ -30,7 +30,7 @@ const LoginScreen = ({navigation}) => {
       formBody.push(encodedKey + "=" + encodedValue);
     }
     formBody = formBody.join("&");
-    fetch('http://172.19.192.1:3000/loginCustomer', {
+    fetch(ip+'/loginCustomer', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
