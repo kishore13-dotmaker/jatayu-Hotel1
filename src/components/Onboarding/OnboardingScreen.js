@@ -1,13 +1,12 @@
-import React from 'react';
-import {View, Text, StatusBar, Image, TouchableOpacity } from 'react-native';
+import React from "react";
+import { View, Text, StatusBar, Image, TouchableOpacity } from "react-native";
 
-import AppIntroSlider from 'react-native-app-intro-slider';
-import OnboardingStyles from './OnboardingStyles';
-import OnboardingData from './OnboardingData';
+import AppIntroSlider from "react-native-app-intro-slider";
+import OnboardingStyles from "./OnboardingStyles";
+import OnboardingData from "./OnboardingData";
 
 const Onboarding = (props) => {
-  
-  const renderItem = ({item}) => {
+  const renderItem = ({ item }) => {
     return (
       <View style={OnboardingStyles.slide}>
         <Image source={item.image} style={OnboardingStyles.image} />
@@ -34,15 +33,16 @@ const Onboarding = (props) => {
       <TouchableOpacity
         style={OnboardingStyles.button}
         // onPress={() => props.navigation.navigate('Home')}
-        onPress={() => props.navigation.reset({
-            index:0,
-            routes: [{name: 'Login'}]
+        onPress={() =>
+          props.navigation.reset({
+            index: 0,
+            routes: [{ name: "Login" }],
           })
         }
       >
-      <View style={OnboardingStyles.doneButtonWrapper}>
-       <Text style={OnboardingStyles.doneButtonText}>Done</Text>
-      </View>
+        <View style={OnboardingStyles.doneButtonWrapper}>
+          <Text style={OnboardingStyles.doneButtonText}>Done</Text>
+        </View>
       </TouchableOpacity>
     );
   };
@@ -59,24 +59,23 @@ const Onboarding = (props) => {
     props.handleDone();
   };
 
-    return (
-      <View style={{flex: 1}}>
-        <StatusBar translucent backgroundColor="transparent" />
-        <AppIntroSlider
-          keyExtractor={keyExtractor}
-          renderItem={renderItem}
-          data={OnboardingData}
-          dotStyle={OnboardingStyles.dotStyle}
-          activeDotStyle={OnboardingStyles.activeDotStyle}
-          renderDoneButton={renderDoneButton}
-          renderNextButton={renderNextButton}
-          renderPrevButton={renderPrevButton}
-          showPrevButton
-          onDone={handleDone}
-        />
-      </View>
-    );
-
+  return (
+    <View style={{ flex: 1 }}>
+      <StatusBar translucent backgroundColor="transparent" />
+      <AppIntroSlider
+        keyExtractor={keyExtractor}
+        renderItem={renderItem}
+        data={OnboardingData}
+        dotStyle={OnboardingStyles.dotStyle}
+        activeDotStyle={OnboardingStyles.activeDotStyle}
+        renderDoneButton={renderDoneButton}
+        renderNextButton={renderNextButton}
+        renderPrevButton={renderPrevButton}
+        showPrevButton
+        onDone={handleDone}
+      />
+    </View>
+  );
 };
 
 export default Onboarding;

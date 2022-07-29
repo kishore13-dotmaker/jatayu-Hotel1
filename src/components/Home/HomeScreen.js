@@ -1,6 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useState, useEffect } from "react";
-import {ip} from "./IpAddress"
+import { ip } from "./IpAddress";
 import {
   SafeAreaView,
   Text,
@@ -25,7 +25,10 @@ import Categories from "../Categories/Categories";
 import Card from "../ShopCards/card";
 import shops from "../consts/shops";
 import * as SecureStore from "expo-secure-store";
-import {BlurView} from 'expo-blur'
+import { BlurView } from "expo-blur";
+import SearchBarStyles from "../SearchBar/SearchBarStyles";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
+import MaterialIcons from "react-native-vector-icons/MaterialCommunityIcons";
 const { width } = Dimensions.get("screen");
 
 const Home = ({ navigation }) => {
@@ -33,7 +36,7 @@ const Home = ({ navigation }) => {
   const [location, setLocation] = useState("chennai");
   const [foundHotels, setFoundHotels] = useState();
   const [isLoading, setLoading] = useState(true);
-  const [search, setSearch]= useState();
+  const [search, setSearch] = useState();
   const handleSubmit = async () => {
     var accessToken = await SecureStore.getItemAsync("accessToken");
     var details = {
@@ -46,7 +49,7 @@ const Home = ({ navigation }) => {
       formBody.push(encodedKey + "=" + encodedValue);
     }
     formBody = formBody.join("&");
-    fetch(ip+"/findUser", {
+    fetch(ip + "/findUser", {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -62,9 +65,9 @@ const Home = ({ navigation }) => {
       });
   };
 
-    const handleConfirmLocation = function() {
-      var url = new URL(ip+"/findHotels"),
-      params = { city: location};
+  const handleConfirmLocation = function () {
+    var url = new URL(ip + "/findHotels"),
+      params = { city: location };
     Object.keys(params).forEach((key) =>
       url.searchParams.append(key, params[key])
     );
@@ -72,15 +75,13 @@ const Home = ({ navigation }) => {
       .then((response) => response.json())
       .then(async (json) => {
         setFoundHotels(json.foundHotels);
-        
-       
       })
       .catch((error) => console.log(error)) // display errors
       .finally(() => setLoading(false));
-    }
-    const handleSearch=async()=>{
-      var url = new URL(ip+"/findHotels"),
-      params = { city: location,search: hotelName };
+  };
+  const handleSearch = async () => {
+    var url = new URL(ip + "/findHotels"),
+      params = { city: location, hotelName:search  };
     Object.keys(params).forEach((key) =>
       url.searchParams.append(key, params[key])
     );
@@ -88,17 +89,13 @@ const Home = ({ navigation }) => {
       .then((response) => response.json())
       .then(async (json) => {
         setFoundHotels(json.foundHotels);
-        
-       
       })
       .catch((error) => console.log(error)) // display errors
       .finally(() => setLoading(false));
-    
-    }
-    return (
-      <SafeAreaView style={HomeStyles.safeArea}>
+  };
+  return (
+    <SafeAreaView style={HomeStyles.safeArea}>
       <View style={HomeStyles.centeredView}>
-          
         <Modal
           animationType="slide"
           transparent={true}
@@ -107,31 +104,30 @@ const Home = ({ navigation }) => {
             setModalVisible(!modalVisible);
           }}
         >
-        
           <View style={HomeStyles.centeredView}>
-          <BlurView intensity={90} tint="dark">
-            <View style={HomeStyles.modalView}>
-              <TextInput
-                style={HomeStyles.input}
-                labelValue={location}
-                onChangeText={(location) => setLocation(location)}
-                placeholder="location"
-              />
-              <Pressable
-                style={[HomeStyles.button, HomeStyles.buttonClose]}
-                onPress={() =>  {
-                  setModalVisible(!modalVisible) 
-                  handleConfirmLocation() }}
-              >
-                <Text style={HomeStyles.textStyle}>Confirm Locatoin</Text>
-              </Pressable>
-            </View>
+            <BlurView intensity={100} tint="light" style={HomeStyles.blurView}>
+              <View style={HomeStyles.modalView}>
+                <TextInput
+                  style={HomeStyles.input}
+                  labelValue={location}
+                  onChangeText={(location) => setLocation(location)}
+                  placeholder="location"
+                />
+                <Pressable
+                  style={[HomeStyles.button, HomeStyles.buttonClose]}
+                  onPress={() => {
+                    setModalVisible(!modalVisible);
+                    handleConfirmLocation();
+                  }}
+                >
+                  <Text style={HomeStyles.textStyle}>Confirm Locatoin</Text>
+                </Pressable>
+              </View>
             </BlurView>
           </View>
         </Modal>
-           
       </View>
-      
+
       <StatusBar
         translucent={false}
         backgroundColor={Colors.white}
@@ -159,15 +155,24 @@ const Home = ({ navigation }) => {
           />
         </Pressable>
       </View>
+ 
+      <View style={SearchBarStyles.HomeSearch}>
+        <View style={SearchBarStyles.inputContainer}>
+          <FontAwesome name={"search"} size={25} color={Colors.greyHome} />
+          <TextInput
+            placeholder=" Search Hotel"
+            onChangeText={(search) => setSearch(search)}
+          />
+        </View>
 
-      <Pressable>
-      <SearchBar 
-        labelValue={search}
-        onChangeText={(search)=>setSearch(search)}
-        placeholder="Search"
-      />
-      </Pressable>
-      {/* <Categories /> */}
+        <Pressable onPress={() => handleSearch()}>
+          <View style={SearchBarStyles.sortBtn}>
+            <MaterialIcons name="home-search" size={25} color={Colors.white} />
+          </View>
+        </Pressable>
+      </View>
+
+
 
       <FlatList
         snapToInterval={width - 20}
@@ -175,10 +180,16 @@ const Home = ({ navigation }) => {
         showsHorizontalScrollIndicator={false}
         vertical={true}
         data={foundHotels}
-        keyExtractor={( item , index) => {return item._id}}
+        keyExtractor={(item, index) => {
+          return item._id;
+        }}
         renderItem={({ item }) => (
-          <Pressable onPress={async() =>{ await SecureStore.setItemAsync("hotel_id", item._id)
-           navigation.navigate("DetailedPage", item)}}>
+          <Pressable
+            onPress={async () => {
+              await SecureStore.setItemAsync("hotel_id", item._id);
+              navigation.navigate("DetailedPage", item);
+            }}
+          >
             <Card item={item} />
           </Pressable>
         )}

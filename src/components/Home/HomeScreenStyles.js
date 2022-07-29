@@ -30,6 +30,7 @@ const HomeStyles = StyleSheet.create({
         
       },
       modalView: {
+        paddingTop: 220,
         margin: 20,
         backgroundColor: "white",
         borderRadius: 20,
@@ -75,6 +76,13 @@ const HomeStyles = StyleSheet.create({
         borderWidth: 1,
         padding: 10,
       },
+      blurView:{
+        position: "absolute",
+        top: 0,
+        left: 0,
+        bottom: 0,
+        right: 0
+        }
 })
 
 export default HomeStyles;

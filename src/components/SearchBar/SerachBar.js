@@ -5,7 +5,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { TextInput } from 'react-native-gesture-handler';
 import Colors from '../../assets/colors/colors';
 import SearchBarStyles from './SearchBarStyles';
-
+import {ip} from '../Home/IpAddress'
 
 export default function SearchBar(){
     return (
@@ -16,7 +16,7 @@ export default function SearchBar(){
                 </View>
                 
                 <View style={SearchBarStyles.sortBtn}>
-                <MaterialIcons name='tune' size= {25} color= {Colors.white} />
+                <MaterialIcons name='home-search' size= {25} color= {Colors.white} />
                 </View>
                 </View>
     )

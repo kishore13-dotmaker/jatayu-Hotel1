@@ -22,7 +22,7 @@ import { Picker } from "@react-native-picker/picker";
 import { StripeProvider } from "@stripe/stripe-react-native";
 import { useStripe } from "@stripe/stripe-react-native";
 import * as SecureStore from "expo-secure-store";
-
+import { ip } from "../Home/IpAddress";
 const { width } = Dimensions.get("screen");
 
 const DetailedPage = ({ navigation, route, props }) => {
@@ -33,29 +33,26 @@ const DetailedPage = ({ navigation, route, props }) => {
   const [roomCategory, setRoomCategory] = useState("superDeluxe");
   const item = route.params;
   const [shouldShow, setShouldShow] = useState(false);
-  const API_URL = "http://127.0.0.1:3000";
-  // const [cardDetails, setCardDetails] = useState();
+  const API_URL = "http://192.168.96.1:3000";
   const stripe = useStripe();
   const [email, setEmail] = useState();
   const [hotel_id, setHotel_id] = useState();
   const [days, setDays] = useState();
   const [roomPrice, setRoomPrice] = useState();
-  // var hotel_id = "62323b951ab3cd1006950954";
-  // const { confirmPayment, loading } = useConfirmPayment();
 
   const fetchPaymentIntentClientSecret = async () => {
     var email = await SecureStore.getItemAsync("username");
     var roomPrice = await SecureStore.getItemAsync("roomPrice");
-    setRoomPrice(roomPrice)
+    setRoomPrice(roomPrice);
     setEmail(email);
-    const response = await fetch(`${API_URL}/pay`, {
+    const response = await fetch(ip + "/pay", {
       method: "POST",
       body: JSON.stringify({
-        email:email,
-        hotel_id:hotel_id,
+        email: email,
+        hotel_id: hotel_id,
         type: roomCategory,
         check_in: checkin,
-        price:roomPrice
+        price: roomPrice,
       }),
       headers: {
         Accept: "application/json",
@@ -85,7 +82,7 @@ const DetailedPage = ({ navigation, route, props }) => {
         const initSheet = await stripe.initPaymentSheet({
           paymentIntentClientSecret: clientSecret,
           googlePay: true,
-          merchantDisplayName: 'Merchant Name',
+          merchantDisplayName: "Merchant Name",
         });
         if (initSheet.error) return Alert.alert(initSheet.error.message);
         const presentSheet = await stripe.presentPaymentSheet({
@@ -108,7 +105,7 @@ const DetailedPage = ({ navigation, route, props }) => {
             formBody.push(encodedKey + "=" + encodedValue);
           }
           formBody = formBody.join("&");
-          fetch(`${API_URL}/newBooking`, {
+          fetch(ip + "/newBooking", {
             method: "POST",
             headers: {
               Accept: "application/json",
@@ -118,7 +115,6 @@ const DetailedPage = ({ navigation, route, props }) => {
           })
             .then((response) => response.json())
             .then((responseJson) => {
-              // console.log(responseJson);
               Alert.alert("Booking Successful, thank you!");
             })
             .catch((error) => {
@@ -133,7 +129,6 @@ const DetailedPage = ({ navigation, route, props }) => {
   //3.Confirm the payment with the card details
   const getPrice = async () => {
     var hotel_id = await SecureStore.getItemAsync("hotel_id");
-    // console.log(hotel_id);
     setHotel_id(hotel_id);
     var details = {
       hotel_id: hotel_id,
@@ -147,7 +142,7 @@ const DetailedPage = ({ navigation, route, props }) => {
       formBody.push(encodedKey + "=" + encodedValue);
     }
     formBody = formBody.join("&");
-    fetch("http://127.0.0.1:3000/findprice", {
+    fetch(ip + "/findprice", {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -157,14 +152,16 @@ const DetailedPage = ({ navigation, route, props }) => {
     })
       .then((response) => response.json())
       .then(async (responseJson) => {
-        
-        await SecureStore.setItemAsync("roomPrice",JSON.stringify(responseJson.price))
+        await SecureStore.setItemAsync(
+          "roomPrice",
+          JSON.stringify(responseJson.price)
+        );
       });
   };
-  const onpress =()=>{
+  const onpress = () => {
     getPrice();
     setShouldShow(true);
-  }
+  };
   return (
     <SafeAreaView style={DetailsStyles.SafeAreaView}>
       <ScrollView>
@@ -176,7 +173,7 @@ const DetailedPage = ({ navigation, route, props }) => {
         <View style={DetailsStyles.ImageContainer}>
           <ImageBackground
             style={DetailsStyles.ImageBackground}
-            source={{uri:item.image}}
+            source={{ uri: item.image }}
           >
             <View style={DetailsStyles.header}>
               <TouchableOpacity onPress={navigation.goBack}>
@@ -233,10 +230,6 @@ const DetailedPage = ({ navigation, route, props }) => {
             </TouchableOpacity>
           </View>
         </View>
-        {/* <FormButton
-        buttonTitle="Checkout"
-        onPress={() => navigation.navigate('StripePayment')}
-      /> */}
         <View style={DetailsStyles.centeredView}>
           <Modal
             animationType="slide"
@@ -290,21 +283,24 @@ const DetailedPage = ({ navigation, route, props }) => {
                     <Picker.Item label="Luxury" value="luxury" />
                   </Picker>
                 </View>
-              
+
                 <Pressable
                   style={[DetailsStyles.button, DetailsStyles.buttonClose]}
                   onPress={() => onpress()}
                 >
                   <Text style={DetailsStyles.textStyle}>Get Price</Text>
                 </Pressable>
-               
+
                 {shouldShow ? (
-                <Pressable
-                  style={[DetailsStyles.button, DetailsStyles.buttonClose]}
-                  onPress={() => {setShouldShow(!shouldShow);handlePayPress();}}
-                > 
-                  <Text style={DetailsStyles.textStyle}>Confirm Booking</Text>
-                </Pressable>
+                  <Pressable
+                    style={[DetailsStyles.button, DetailsStyles.buttonClose]}
+                    onPress={() => {
+                      setShouldShow(!shouldShow);
+                      handlePayPress();
+                    }}
+                  >
+                    <Text style={DetailsStyles.textStyle}>Confirm Booking</Text>
+                  </Pressable>
                 ) : null}
                 <StripeProvider publishableKey="pk_test_51LOKycSAHBKLERfHvIoXVb5S6tPtStzg09KD0Kv9Uvw7rqNYKfUXPaLrsyUgut8N7OftC4uPC3YFl7NpmsEK5xM900VVClZWd7">
                   {/* <StripeProvider
@@ -314,7 +310,7 @@ const DetailedPage = ({ navigation, route, props }) => {
         > */}
 
                   {/* </StripeProvider> */}
-                  
+
                   <Pressable
                     style={[DetailsStyles.button, DetailsStyles.buttonClose]}
                     onPress={() => setModalVisible(!modalVisible)}
