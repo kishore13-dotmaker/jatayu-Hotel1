@@ -246,19 +246,19 @@ const DetailedPage = ({ navigation, route, props }) => {
                     style={DetailsStyles.input}
                     labelValue={checkin}
                     onChangeText={(checkin) => setCheckin(checkin)}
-                    placeholder="Check-In"
-                  />
+                    placeholder="In-YYYY-MM-DD"
+                  /> 
                   <TextInput
                     style={DetailsStyles.input}
                     labelValue={checkout}
                     onChangeText={(checkout) => setCheckout(checkout)}
-                    placeholder="Check-Out"
+                    placeholder="Out-YYYY-MM-DD"
                   />
                   <TextInput
                     style={DetailsStyles.input}
                     labelValue={days}
                     onChangeText={(days) => setDays(days)}
-                    placeholder="Days Staying"
+                    placeholder="Days"
                   />
                 </View>
                 <View>
