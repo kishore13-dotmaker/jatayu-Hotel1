@@ -152,7 +152,7 @@ const DetailsStyles = StyleSheet.create({
       
     },
     price:{
-      color: "white",
+      color: "black",
       fontWeight: "bold",
       textAlign: "center",
       paddingTop:40  

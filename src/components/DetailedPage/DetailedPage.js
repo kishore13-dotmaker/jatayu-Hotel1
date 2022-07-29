@@ -32,7 +32,8 @@ const DetailedPage = ({ navigation, route, props }) => {
   const [guests, setGuests] = useState();
   const [roomCategory, setRoomCategory] = useState("superDeluxe");
   const item = route.params;
-  const API_URL = "http://172.19.192.1:3000";
+  const [shouldShow, setShouldShow] = useState(false);
+  const API_URL = "http://127.0.0.1:3000";
   // const [cardDetails, setCardDetails] = useState();
   const stripe = useStripe();
   const [email, setEmail] = useState();
@@ -47,10 +48,6 @@ const DetailedPage = ({ navigation, route, props }) => {
     var roomPrice = await SecureStore.getItemAsync("roomPrice");
     setRoomPrice(roomPrice)
     setEmail(email);
-    // var hotel_id = await SecureStore.getItemAsync("hotel_id");
-    // console.log(hotel_id);
-    // setHotel_id(hotel_id);
-    // console.log(email)
     const response = await fetch(`${API_URL}/pay`, {
       method: "POST",
       body: JSON.stringify({
@@ -150,7 +147,7 @@ const DetailedPage = ({ navigation, route, props }) => {
       formBody.push(encodedKey + "=" + encodedValue);
     }
     formBody = formBody.join("&");
-    fetch("http://172.19.192.1:3000/findprice", {
+    fetch("http://127.0.0.1:3000/findprice", {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -160,9 +157,14 @@ const DetailedPage = ({ navigation, route, props }) => {
     })
       .then((response) => response.json())
       .then(async (responseJson) => {
-        await SecureStore.setItemAsync("roomPrice",JSON.stringify(responseJson.price));
+        
+        await SecureStore.setItemAsync("roomPrice",JSON.stringify(responseJson.price))
       });
   };
+  const onpress =()=>{
+    getPrice();
+    setShouldShow(true);
+  }
   return (
     <SafeAreaView style={DetailsStyles.SafeAreaView}>
       <ScrollView>
@@ -288,19 +290,22 @@ const DetailedPage = ({ navigation, route, props }) => {
                     <Picker.Item label="Luxury" value="luxury" />
                   </Picker>
                 </View>
-                <Text style={DetailsStyles.price}>Total Price:{roomPrice}</Text>
+              
                 <Pressable
                   style={[DetailsStyles.button, DetailsStyles.buttonClose]}
-                  onPress={() => getPrice()}
+                  onPress={() => onpress()}
                 >
                   <Text style={DetailsStyles.textStyle}>Get Price</Text>
                 </Pressable>
+               
+                {shouldShow ? (
                 <Pressable
                   style={[DetailsStyles.button, DetailsStyles.buttonClose]}
-                  onPress={() => handlePayPress()}
-                >
+                  onPress={() => {setShouldShow(!shouldShow);handlePayPress();}}
+                > 
                   <Text style={DetailsStyles.textStyle}>Confirm Booking</Text>
                 </Pressable>
+                ) : null}
                 <StripeProvider publishableKey="pk_test_51LOKycSAHBKLERfHvIoXVb5S6tPtStzg09KD0Kv9Uvw7rqNYKfUXPaLrsyUgut8N7OftC4uPC3YFl7NpmsEK5xM900VVClZWd7">
                   {/* <StripeProvider
           publishableKey="pk_test_51KFMKpSFhRwTxyXZDMXbRgR1LeBYbfdyZzuqldHxyFpZz3WYamRyYZ9428b0P8sXpk7zP3QMWJrwcO07dJ5HStGL00FHZ5gd72"
@@ -309,7 +314,7 @@ const DetailedPage = ({ navigation, route, props }) => {
         > */}
 
                   {/* </StripeProvider> */}
-
+                  
                   <Pressable
                     style={[DetailsStyles.button, DetailsStyles.buttonClose]}
                     onPress={() => setModalVisible(!modalVisible)}

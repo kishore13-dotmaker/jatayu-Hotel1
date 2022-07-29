@@ -25,6 +25,7 @@ import Categories from "../Categories/Categories";
 import Card from "../ShopCards/card";
 import shops from "../consts/shops";
 import * as SecureStore from "expo-secure-store";
+import {BlurView} from 'expo-blur'
 const { width } = Dimensions.get("screen");
 
 const Home = ({ navigation }) => {
@@ -108,6 +109,7 @@ const Home = ({ navigation }) => {
         >
         
           <View style={HomeStyles.centeredView}>
+          <BlurView intensity={90} tint="dark">
             <View style={HomeStyles.modalView}>
               <TextInput
                 style={HomeStyles.input}
@@ -124,6 +126,7 @@ const Home = ({ navigation }) => {
                 <Text style={HomeStyles.textStyle}>Confirm Locatoin</Text>
               </Pressable>
             </View>
+            </BlurView>
           </View>
         </Modal>
            
