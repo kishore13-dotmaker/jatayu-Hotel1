@@ -247,7 +247,7 @@ const DetailedPage = ({ navigation, route, props }) => {
                     labelValue={checkin}
                     onChangeText={(checkin) => setCheckin(checkin)}
                     placeholder="In-YYYY-MM-DD"
-                  /> 
+                  />
                   <TextInput
                     style={DetailsStyles.input}
                     labelValue={checkout}
