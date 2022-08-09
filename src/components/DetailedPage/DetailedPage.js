@@ -162,6 +162,10 @@ const DetailedPage = ({ navigation, route, props }) => {
     getPrice();
     setShouldShow(true);
   };
+  const payment = () => {
+    handlePayPress();
+    setShouldShow(!shouldShow);
+  }
   return (
     <SafeAreaView style={DetailsStyles.SafeAreaView}>
       <ScrollView>
@@ -294,15 +298,12 @@ const DetailedPage = ({ navigation, route, props }) => {
                 {shouldShow ? (
                   <Pressable
                     style={[DetailsStyles.button, DetailsStyles.buttonClose]}
-                    onPress={() => {
-                      setShouldShow(!shouldShow);
-                      handlePayPress();
-                    }}
+                    onPress={() => payment()}
                   >
                     <Text style={DetailsStyles.textStyle}>Confirm Booking</Text>
                   </Pressable>
                 ) : null}
-                <StripeProvider publishableKey="pk_test_51LOKycSAHBKLERfHvIoXVb5S6tPtStzg09KD0Kv9Uvw7rqNYKfUXPaLrsyUgut8N7OftC4uPC3YFl7NpmsEK5xM900VVClZWd7">
+                <StripeProvider publishableKey="pk_test_51LUiDqSBHmM14d4MPypHvoxLbLSThUtDun4NK7JqJOYLPWoVhS5jRGwXkyGj1PugBr4XJvQrL1Qoh2juO3JpLQoE007Y2NuQYd">
                   {/* <StripeProvider
           publishableKey="pk_test_51KFMKpSFhRwTxyXZDMXbRgR1LeBYbfdyZzuqldHxyFpZz3WYamRyYZ9428b0P8sXpk7zP3QMWJrwcO07dJ5HStGL00FHZ5gd72"
           urlScheme="your-url-scheme" // required for 3D Secure and bank redirects
